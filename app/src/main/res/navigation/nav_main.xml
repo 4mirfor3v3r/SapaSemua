@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/containerMenuFragment">
+
+    <fragment
+        android:id="@+id/containerAuthFragment"
+        android:name="amirlabs.sapasemua.ui.auth.ContainerAuthFragment"
+        android:label="ContainerAuthFragment"
+        tools:layout="@layout/fragment_container_auth" >
+        <action
+            android:id="@+id/action_containerAuthFragment_to_containerMenuFragment"
+            app:destination="@id/containerMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/containerMenuFragment"
+        android:name="amirlabs.sapasemua.ui.menu.ContainerMenuFragment"
+        android:label="ContainerMenuFragment"
+        tools:layout="@layout/fragment_container_menu" />
+</navigation>
