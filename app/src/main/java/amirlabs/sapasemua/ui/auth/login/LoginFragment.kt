@@ -3,8 +3,11 @@ package amirlabs.sapasemua.ui.auth.login
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.base.DevFragment
 import amirlabs.sapasemua.databinding.FragmentLoginBinding
+import amirlabs.sapasemua.ui.auth.AuthContainerFragmentDirections
 import amirlabs.sapasemua.utils.DevState
 import amirlabs.sapasemua.utils.getViewModel
+import android.os.Handler
+import android.os.Looper
 import android.util.Patterns
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
@@ -22,32 +25,35 @@ class LoginFragment : DevFragment<FragmentLoginBinding>(R.layout.fragment_login)
     }
 
     override fun initUI() {
-
     }
 
     override fun initAction() {
         verifyEmail()
         verifyNewPassword("")
-//        binding.etEmail.editText?.doAfterTextChanged {
-//            verifyEmail()
-//            binding.btnLogin.isEnabled = isVerified()
-//        }
-//        binding.etPassword.editText?.doAfterTextChanged { text ->
-//            verifyNewPassword(text.toString())
-//            binding.btnLogin.isEnabled = isVerified()
-//        }
-//        binding.tvRegister.setOnClickListener {
-//            authNavController?.navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
-//        }
+        binding.etEmail.editText?.doAfterTextChanged {
+            verifyEmail()
+            binding.btnLogin.isEnabled = isVerified()
+        }
+        binding.etPassword.editText?.doAfterTextChanged { text ->
+            verifyNewPassword(text.toString())
+            binding.btnLogin.isEnabled = isVerified()
+        }
+        binding.tabRegister.setOnClickListener {
+            authNavController?.navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+        }
 //        binding.tvForgetPassword.setOnClickListener {
 //            authNavController?.navigate(LoginFragmentDirections.actionLoginFragmentToForgetPasswordFragment())
 //        }
-//        binding.btnLogin.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
+            binding.btnLogin.startAnimation()
+            Handler(Looper.getMainLooper()).postDelayed({
+                mainNavController?.navigate(AuthContainerFragmentDirections.actionAuthContainerFragmentToMenuContainerFragment())
+            },3000)
 //                vm.performLogin(
 //                    binding.etEmail.editText?.text.toString(),
 //                    binding.etPassword.editText?.text.toString()
 //                )
-//        }
+        }
     }
 
     override fun initObserver() {
@@ -93,25 +99,25 @@ class LoginFragment : DevFragment<FragmentLoginBinding>(R.layout.fragment_login)
     }
 
     private fun verifyEmail() {
-//        if (!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.editText?.text.toString()).matches()) {
-//            binding.etEmail.error = getString(R.string.error_email_format)
-//        } else {
-//            binding.etEmail.error = null
-//        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.editText?.text.toString()).matches()) {
+            binding.etEmail.error = "Format Email tidak sesuai"
+        } else {
+            binding.etEmail.error = null
+        }
     }
 
     private fun verifyNewPassword(text: String) {
-//        if (text.length < 8 || text == text.lowercase() || text == text.uppercase()) {
-//            binding.etPassword.error = getString(R.string.error_password_format)
-//        } else {
-//            binding.etPassword.error = null
-//        }
+        if (text.length < 8 || text == text.lowercase() || text == text.uppercase()) {
+            binding.etPassword.error = "Password terdiri dari 8 kata, huruf kecil dan besar"
+        } else {
+            binding.etPassword.error = null
+        }
     }
 
-//    private fun isVerified(): Boolean {
-//        return binding.etEmail.error == null &&
-//                binding.etPassword.error == null
-//    }
+    private fun isVerified(): Boolean {
+        return binding.etEmail.error == null &&
+                binding.etPassword.error == null
+    }
 
     override fun onMessageError(message: String) {
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show()

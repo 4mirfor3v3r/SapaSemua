@@ -10,7 +10,9 @@
         android:label="AuthContainerFragment" >
         <action
             android:id="@+id/action_authContainerFragment_to_menuContainerFragment"
-            app:destination="@id/menuContainerFragment" />
+            app:destination="@id/menuContainerFragment"
+            app:popUpTo="@id/authContainerFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/menuContainerFragment"

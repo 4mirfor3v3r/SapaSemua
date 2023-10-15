@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="amirlabs.sapasemua.ui.auth.login.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onBoardingFragment"
         android:name="amirlabs.sapasemua.ui.auth.onboarding.OnBoardingFragment"
@@ -17,4 +21,8 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/onBoardingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="amirlabs.sapasemua.ui.auth.register.RegisterFragment"
+        android:label="RegisterFragment" />
 </navigation>
