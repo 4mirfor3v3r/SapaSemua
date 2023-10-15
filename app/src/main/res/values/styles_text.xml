@@ -48,6 +48,12 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="Poppins.Black2">
+        <item name="android:textColor">@color/black2</item>
+    </style>
+    <style name="Poppins.Black2.12sp">
+        <item name="android:textSize">12sp</item>
+    </style>
 
     <style name="Poppins.Black3">
         <item name="android:textColor">@color/black3</item>
@@ -127,11 +133,17 @@
     <style name="Poppins.600.Black">
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="Poppins.600.Black.12sp">
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="Poppins.600.Black.16sp">
         <item name="android:textSize">16sp</item>
     </style>
     <style name="Poppins.600.Black.18sp">
         <item name="android:textSize">18sp</item>
+    </style>
+    <style name="Poppins.600.Black.20sp">
+        <item name="android:textSize">20sp</item>
     </style>
     <style name="Poppins.600.Black.24sp">
         <item name="android:textSize">24sp</item>
