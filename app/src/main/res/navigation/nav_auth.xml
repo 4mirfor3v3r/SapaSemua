@@ -2,10 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_auth"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/onBoardingFragment">
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="amirlabs.sapasemua.ui.auth.login.LoginFragment"
         android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="amirlabs.sapasemua.ui.auth.onboarding.OnBoardingFragment"
+        android:label="OnBoardingFragment" >
+        <action
+            android:id="@+id/action_onBoardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/onBoardingFragment" />
+    </fragment>
 </navigation>

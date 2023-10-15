@@ -133,4 +133,7 @@
     <style name="Poppins.600.Black.18sp">
         <item name="android:textSize">18sp</item>
     </style>
+    <style name="Poppins.600.Black.32sp">
+        <item name="android:textSize">32sp</item>
+    </style>
 </resources>
