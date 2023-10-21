@@ -151,4 +151,11 @@
     <style name="Poppins.600.Black.32sp">
         <item name="android:textSize">32sp</item>
     </style>
+
+    <style name="Poppins.600.Orange">
+        <item name="android:textColor">#FF6B00</item>
+    </style>
+    <style name="Poppins.600.Orange.12sp">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
