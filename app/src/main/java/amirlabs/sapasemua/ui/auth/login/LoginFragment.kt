@@ -5,11 +5,15 @@ import amirlabs.sapasemua.base.DevFragment
 import amirlabs.sapasemua.databinding.FragmentLoginBinding
 import amirlabs.sapasemua.ui.auth.AuthContainerFragmentDirections
 import amirlabs.sapasemua.utils.DevState
+import amirlabs.sapasemua.utils.PrefsKey
 import amirlabs.sapasemua.utils.getViewModel
+import amirlabs.sapasemua.utils.logError
+import amirlabs.sapasemua.utils.prefs
 import android.os.Handler
 import android.os.Looper
 import android.util.Patterns
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -46,54 +50,44 @@ class LoginFragment : DevFragment<FragmentLoginBinding>(R.layout.fragment_login)
 //        }
         binding.btnLogin.setOnClickListener {
             binding.btnLogin.startAnimation()
-            Handler(Looper.getMainLooper()).postDelayed({
-                mainNavController?.navigate(AuthContainerFragmentDirections.actionAuthContainerFragmentToMenuContainerFragment())
-            },3000)
-//                vm.performLogin(
-//                    binding.etEmail.editText?.text.toString(),
-//                    binding.etPassword.editText?.text.toString()
-//                )
+            vm.performLogin(
+                binding.etEmail.editText?.text.toString(),
+                binding.etPassword.editText?.text.toString()
+            )
         }
     }
 
     override fun initObserver() {
-        vm.loginStatus.observe(viewLifecycleOwner){
-            when(it){
+        vm.loginStatus.observe(viewLifecycleOwner) {
+            when (it) {
                 is DevState.Loading -> {
-//                    binding.btnBack.isEnabled = false
-//                    binding.etEmail.isEnabled = false
-//                    binding.etPassword.isEnabled = false
-//                    binding.btnLogin.isEnabled = false
-//                    binding.cbRememberMe.isEnabled = false
-//                    binding.tvForgetPassword.isEnabled = false
-//                    binding.tvRegister.isEnabled = false
+                    binding.etEmail.isEnabled = false
+                    binding.etPassword.isEnabled = false
+                    binding.btnLogin.isClickable = false
+                    binding.tabRegister.isEnabled = false
                 }
+
                 is DevState.Success -> {
-//                    prefs().setBoolean(PrefsKey.IS_LOGGED_IN, binding.cbRememberMe.isChecked)
-//                    prefs().setString(PrefsKey.USER_ID, it.data.id?:"")
-//                    prefs().setString(PrefsKey.USER_NAME, it.data.name.orEmpty())
-//                    prefs().setString(PrefsKey.USER_EMAIL, it.data.email.orEmpty())
-//                    if (it.data.profileUrl is String?) {
-//                        prefs().setString(PrefsKey.USER_PROFILE_IMAGE, it.data.profileUrl.orEmpty())
-//                    }
-//
-//                    Toast.makeText(context,"Success",Toast.LENGTH_SHORT).show()
-//                    mainNavController?.navigate(AuthContainerFragmentDirections.actionAuthContainerFragmentToMenuContainerFragment())
+                    binding.btnLogin.revertAnimation()
+                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                    mainNavController?.navigate(AuthContainerFragmentDirections.actionAuthContainerFragmentToMenuContainerFragment())
                 }
+
                 is DevState.Failure -> {
-//                    binding.btnBack.isEnabled = true
-//                    binding.etEmail.isEnabled = true
-//                    binding.etPassword.isEnabled = true
-//                    binding.btnLogin.isEnabled = true
-//                    binding.cbRememberMe.isEnabled = true
-//                    binding.tvForgetPassword.isEnabled = true
-//                    binding.tvRegister.isEnabled = true
-//
-//                    Toast.makeText(context,it.message,Toast.LENGTH_SHORT).show()
-//                    logError(it.message)
+                    binding.btnLogin.revertAnimation {
+                        binding.btnLogin.background =
+                            ResourcesCompat.getDrawable(resources, R.drawable.sample, null)
+                    }
+                    binding.etEmail.isEnabled = true
+                    binding.etPassword.isEnabled = true
+                    binding.btnLogin.isClickable = true
+                    binding.tabRegister.isEnabled = true
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    logError(it.message)
                 }
+
                 is DevState.Default -> {}
-                is DevState.Empty ->{}
+                is DevState.Empty -> {}
             }
         }
     }
@@ -120,6 +114,6 @@ class LoginFragment : DevFragment<FragmentLoginBinding>(R.layout.fragment_login)
     }
 
     override fun onMessageError(message: String) {
-        Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

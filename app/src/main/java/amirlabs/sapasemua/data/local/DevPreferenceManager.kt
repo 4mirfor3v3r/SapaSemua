@@ -141,6 +141,10 @@ class DevPreferenceManager(private val context: Context, private val prefName: S
         mPreferences.edit().putString(key, json).apply()
     }
 
+    fun clear() {
+        mPreferences.edit().clear().apply()
+    }
+
     @SuppressLint("HardwareIds")
     private fun getDeviceId(context: Context): String {
         return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)

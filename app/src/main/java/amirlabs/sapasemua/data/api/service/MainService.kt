@@ -1,6 +1,7 @@
 package amirlabs.sapasemua.data.api.service
 
 import amirlabs.sapasemua.data.model.BaseResponse
+import amirlabs.sapasemua.data.model.User
 import io.reactivex.rxjava3.core.Single
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -13,5 +14,10 @@ interface MainService {
     @POST("auth/login")
     fun login(
         @Body body:Map<String,Any>
-    ):Single<BaseResponse<Any>>
+    ):Single<BaseResponse<User>>
+
+    @POST("auth/register")
+    fun register(
+        @Body body:Map<String,Any>
+    ):Single<BaseResponse<User>>
 }

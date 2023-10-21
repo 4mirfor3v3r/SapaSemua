@@ -3,6 +3,7 @@ package amirlabs.sapasemua.data.repo
 import amirlabs.sapasemua.data.api.service.MainService
 import amirlabs.sapasemua.data.local.dao.VideoDao
 import amirlabs.sapasemua.data.model.BaseResponse
+import amirlabs.sapasemua.data.model.User
 import io.reactivex.rxjava3.core.Single
 import okhttp3.RequestBody
 
@@ -39,7 +40,11 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
 //            avoidArea = avoidArea
 //            )
 //    }
-    override fun login(form: Map<String, Any>): Single<BaseResponse<Any>> {
+    override fun login(form: Map<String, Any>): Single<BaseResponse<User>> {
         return mainApi.login(form)
+    }
+
+    override fun register(user: Map<String, Any>): Single<BaseResponse<User>> {
+        return mainApi.register(user)
     }
 }

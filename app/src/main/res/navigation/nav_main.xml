@@ -17,5 +17,11 @@
     <fragment
         android:id="@+id/menuContainerFragment"
         android:name="amirlabs.sapasemua.ui.menu.MenuContainerFragment"
-        android:label="MenuContainerFragment" />
+        android:label="MenuContainerFragment" >
+        <action
+            android:id="@+id/action_menuContainerFragment_to_authContainerFragment"
+            app:destination="@id/authContainerFragment"
+            app:popUpTo="@id/menuContainerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

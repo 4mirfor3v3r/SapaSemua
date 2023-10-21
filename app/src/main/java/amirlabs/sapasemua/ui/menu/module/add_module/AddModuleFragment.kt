@@ -1,20 +1,23 @@
-package amirlabs.sapasemua.ui.menu.module.quiz
+package amirlabs.sapasemua.ui.menu.module.add_module
 
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.base.DevFragment
-import amirlabs.sapasemua.databinding.FragmentQuizBinding
+import amirlabs.sapasemua.databinding.FragmentAddModuleBinding
 
-class QuizFragment : DevFragment<FragmentQuizBinding>(R.layout.fragment_quiz) {
+class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragment_add_module) {
     override fun initData() {
 
     }
 
     override fun initUI() {
+
     }
 
     override fun initAction() {
+
     }
 
     override fun initObserver() {
+
     }
 }

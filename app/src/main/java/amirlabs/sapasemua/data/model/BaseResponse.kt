@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 data class BaseResponse<MODEL>(
 
-    @SerializedName("message")
+    @SerializedName("msg")
     val message:String?,
 
-    @SerializedName("data")
+    @SerializedName("response")
     val data:MODEL?,
 
     @SerializedName("access_token")

@@ -14,15 +14,41 @@
         android:id="@+id/forumFragment"
         android:name="amirlabs.sapasemua.ui.menu.forum.ForumFragment"
         android:label="fragment_forum"
-        tools:layout="@layout/fragment_forum" />
+        tools:layout="@layout/fragment_forum">
+        <action
+            android:id="@+id/action_forumFragment_to_forumListFragment"
+            app:destination="@id/forumListFragment" />
+        <action
+            android:id="@+id/action_forumFragment_to_createDiscussionFragment"
+            app:destination="@id/createDiscussionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/moduleFragment"
         android:name="amirlabs.sapasemua.ui.menu.module.ModuleFragment"
         android:label="fragment_module"
-        tools:layout="@layout/fragment_module" />
+        tools:layout="@layout/fragment_module">
+        <action
+            android:id="@+id/action_moduleFragment_to_addModuleFragment"
+            app:destination="@id/addModuleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="amirlabs.sapasemua.ui.menu.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/addModuleFragment"
+        android:name="amirlabs.sapasemua.ui.menu.module.add_module.AddModuleFragment"
+        android:label="AddModuleFragment"
+        tools:layout="@layout/fragment_add_module" />
+    <fragment
+        android:id="@+id/forumListFragment"
+        android:name="amirlabs.sapasemua.ui.menu.forum.list.ForumListFragment"
+        android:label="ForumListFragment"
+        tools:layout="@layout/fragment_forum_list" />
+    <fragment
+        android:id="@+id/createDiscussionFragment"
+        android:name="amirlabs.sapasemua.ui.menu.forum.create_discussion.CreateDiscussionFragment"
+        android:label="CreateDiscussionFragment"
+        tools:layout="@layout/fragment_create_discussion" />
 </navigation>

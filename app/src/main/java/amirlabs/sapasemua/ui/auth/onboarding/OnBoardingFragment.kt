@@ -3,6 +3,7 @@ package amirlabs.sapasemua.ui.auth.onboarding
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.base.DevFragment
 import amirlabs.sapasemua.databinding.FragmentOnBoardingBinding
+import amirlabs.sapasemua.ui.auth.AuthContainerFragmentDirections
 import amirlabs.sapasemua.utils.PrefsKey
 import amirlabs.sapasemua.utils.prefs
 import androidx.core.view.isVisible
@@ -18,16 +19,12 @@ class OnBoardingFragment : DevFragment<FragmentOnBoardingBinding>(R.layout.fragm
         adapter = OnBoardingAdapter{
 
         }
-//        if (prefs().getBoolean(PrefsKey.IS_LOGGED_IN, false)) {
-//            mainNavController?.navigate(AuthContainerFragmentDirections.actionAuthContainerFragmentToMenuContainerFragment())
-////            authNavController?.navigate(WalkthroughFragmentDirections.actionWalkthroughFragmentToRegisterFragment())
-//        } else if (!prefs().getBoolean(PrefsKey.IS_WALKTHROUGH, true)) {
-//            authNavController?.navigate(WalkthroughFragmentDirections.actionWalkthroughFragmentToLoginFragment())
-//        }
-
-//        if (!prefs().getBoolean(PrefsKey.IS_WALKTHROUGH, false)) {
-//            authNavController?.navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginFragment())
-//        }
+        if (prefs().getBoolean(PrefsKey.IS_LOGGED_IN, false)) {
+            mainNavController?.navigate(AuthContainerFragmentDirections.actionAuthContainerFragmentToMenuContainerFragment())
+//            authNavController?.navigate(WalkthroughFragmentDirections.actionWalkthroughFragmentToRegisterFragment())
+        } else if (!prefs().getBoolean(PrefsKey.IS_WALKTHROUGH, true)) {
+            authNavController?.navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginFragment())
+        }
     }
 
     override fun initUI() {

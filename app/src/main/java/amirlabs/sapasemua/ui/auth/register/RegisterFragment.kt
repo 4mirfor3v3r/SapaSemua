@@ -2,16 +2,23 @@ package amirlabs.sapasemua.ui.auth.register
 
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.base.DevFragment
+import amirlabs.sapasemua.base.DevViewModel
 import amirlabs.sapasemua.databinding.FragmentRegisterBinding
 import amirlabs.sapasemua.ui.auth.AuthContainerFragmentDirections
+import amirlabs.sapasemua.utils.DevState
+import amirlabs.sapasemua.utils.getViewModel
+import amirlabs.sapasemua.utils.logError
 import android.os.Handler
 import android.os.Looper
 import android.util.Patterns
+import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 
 class RegisterFragment: DevFragment<FragmentRegisterBinding>(R.layout.fragment_register){
+    override val vm: RegisterViewModel by getViewModel()
     private val authNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_auth) }
     private val mainNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_main) }
     override fun initData() {
@@ -49,17 +56,53 @@ class RegisterFragment: DevFragment<FragmentRegisterBinding>(R.layout.fragment_r
         binding.btnRegister.setOnClickListener {
             binding.btnRegister.startAnimation()
             Handler(Looper.getMainLooper()).postDelayed({
-                mainNavController?.navigate(AuthContainerFragmentDirections.actionAuthContainerFragmentToMenuContainerFragment())
-            },3000)
-//            vm.performRegister(
-//                binding.etFullName.editText?.text.toString(),
-//                binding.etEmail.editText?.text.toString(),
-//                binding.etNewPassword.editText?.text.toString()
-//            )
+            vm.performRegister(
+                binding.etName.editText?.text.toString(),
+                binding.etEmail.editText?.text.toString(),
+                binding.etPassword.editText?.text.toString()
+            )
+            },1200)
         }
     }
 
     override fun initObserver() {
+        vm.registerStatus.observe(viewLifecycleOwner){
+            when (it) {
+                is DevState.Success -> {
+                    binding.btnRegister.revertAnimation()
+                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                    mainNavController?.navigate(AuthContainerFragmentDirections.actionAuthContainerFragmentToMenuContainerFragment())
+                }
+
+                is DevState.Failure -> {
+                    binding.btnRegister.revertAnimation {
+                        binding.btnRegister.background =
+                            ResourcesCompat.getDrawable(resources, R.drawable.sample, null)
+                    }
+                    binding.etName.isEnabled = true
+                    binding.etEmail.isEnabled = true
+                    binding.etPassword.isEnabled = true
+                    binding.etConfirmPassword.isEnabled = true
+                    binding.tabRegister.isEnabled = true
+                    binding.tabLogin.isEnabled = true
+                    binding.btnRegister.isEnabled = true
+                    Toast.makeText(context,it.message,Toast.LENGTH_SHORT).show()
+                    logError(it.message)
+                }
+
+                is DevState.Loading -> {
+                    binding.etName.isEnabled = false
+                    binding.etEmail.isEnabled = false
+                    binding.etPassword.isEnabled = false
+                    binding.etConfirmPassword.isEnabled = false
+                    binding.tabRegister.isEnabled = false
+                    binding.tabLogin.isEnabled = false
+                    binding.btnRegister.isEnabled = false
+                }
+
+                else -> {}
+            }
+        }
     }
 
 
