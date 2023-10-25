@@ -6,6 +6,9 @@ import amirlabs.sapasemua.data.repo.MainRepositoryImpl
 import amirlabs.sapasemua.ui.auth.login.LoginViewModel
 import amirlabs.sapasemua.ui.auth.register.RegisterViewModel
 import amirlabs.sapasemua.ui.menu.home.HomeViewModel
+import amirlabs.sapasemua.ui.menu.module.ModuleViewModel
+import amirlabs.sapasemua.ui.menu.module.add_module.AddModuleViewModel
+import amirlabs.sapasemua.ui.menu.translate.TranslateViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -21,6 +24,9 @@ class ViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(mainRepo) as T
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(mainRepo) as T
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel() as T
+            modelClass.isAssignableFrom(ModuleViewModel::class.java) -> ModuleViewModel(mainRepo) as T
+            modelClass.isAssignableFrom(AddModuleViewModel::class.java) -> AddModuleViewModel(mainRepo) as T
+            modelClass.isAssignableFrom(TranslateViewModel::class.java) -> TranslateViewModel(mainRepo) as T
 //            modelClass.isAssignableFrom(CCTVViewModel::class.java) -> CCTVViewModel(disposable, restRepository) as T
 //            modelClass.isAssignableFrom(ReportViewModel::class.java) -> ReportViewModel(disposable, repository, restRepository) as T
 //            modelClass.isAssignableFrom(SafeRouteViewModel::class.java) -> SafeRouteViewModel(disposable, repository, restRepository) as T

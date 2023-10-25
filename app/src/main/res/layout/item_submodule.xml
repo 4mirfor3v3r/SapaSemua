@@ -32,7 +32,7 @@
                 android:layout_marginEnd="16dp"
                 android:textColor="#004A61"
                 app:layout_constraintBottom_toTopOf="@id/tvSubmoduleTime"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivEdit"
                 app:layout_constraintStart_toEndOf="@id/ivPlay"
                 app:layout_constraintTop_toTopOf="@id/ivPlay"
                 tools:text="@tools:sample/lorem" />
@@ -46,10 +46,24 @@
                 android:layout_marginEnd="16dp"
                 android:textColor="#14CBD9"
                 app:layout_constraintBottom_toBottomOf="@id/ivPlay"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivEdit"
                 app:layout_constraintStart_toEndOf="@id/ivPlay"
                 app:layout_constraintTop_toBottomOf="@id/tvSubmoduleTitle"
                 tools:text="@tools:sample/lorem" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivEdit"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="#F8F8F8"
+                android:src="@drawable/ic_edit"
+                app:contentPadding="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:shapeAppearance="@style/circleImageView"
+                app:tint="@color/primary"
+                tools:layout_editor_absoluteY="16dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

@@ -328,17 +328,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:text="Sebelumnya" />
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnNext"
+                android:id="@+id/btnSubmit"
                 style="@style/Button.Primary15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_weight="1"
-                android:text="Selanjutnya" />
+                android:text="Simpan Kuis" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

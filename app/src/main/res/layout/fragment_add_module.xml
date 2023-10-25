@@ -33,7 +33,7 @@
                 style="@style/Poppins.600.Black.18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sub Modul"
+                android:text="Tambah Modul"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,11 +54,11 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/etSearch"
-                    android:enabled="false"
-                    android:clickable="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
+                    android:clickable="false"
+                    android:enabled="false"
                     android:hint="Cari Kata yang diinginkan"
                     app:boxBackgroundColor="@color/white"
                     app:boxStrokeColor="@color/white"
@@ -93,13 +93,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
-                    android:hint="Tambahkan Judul"
                     android:layout_marginTop="8dp"
+                    android:hint="Tambahkan Judul"
                     android:textColorHint="#64748B"
+                    android:translationZ="2dp"
                     app:boxBackgroundColor="#F3F5F8"
                     app:boxStrokeColor="#F3F5F8"
                     app:boxStrokeWidth="0dp"
-                    android:translationZ="2dp"
                     app:layout_constraintBottom_toBottomOf="@+id/cardIvContainer"
                     app:layout_constraintEnd_toEndOf="@id/ivModule"
                     app:layout_constraintStart_toStartOf="@id/cardIvContainer"
@@ -117,26 +117,30 @@
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@color/black_60"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:scaleType="centerCrop"
-                    android:translationZ="2dp"
                     android:src="@drawable/ic_image"
+                    android:translationZ="2dp"
                     app:layout_constraintEnd_toEndOf="@+id/etSearch"
                     app:layout_constraintStart_toStartOf="@+id/etSearch"
                     app:layout_constraintTop_toBottomOf="@+id/etSearch"
-                    app:shapeAppearance="@style/roundedBottomImageView"
-                    android:background="@color/black_60" />
+                    app:shapeAppearance="@style/roundedBottomImageView" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnAddImage"
-                    app:layout_constraintTop_toTopOf="@id/ivModule"
-                    android:background="@drawable/bg_white_outline_rounded_5"
-                    app:layout_constraintBottom_toBottomOf="@id/ivModule"
-                    app:layout_constraintStart_toStartOf="@id/ivModule"
-                    app:layout_constraintEnd_toEndOf="@id/ivModule"
-                    android:translationZ="3dp"
-                    android:src="@drawable/ic_add"
                     android:layout_width="40dp"
-                    android:layout_height="40dp" />
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_white_outline_rounded_5"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_add"
+                    android:translationZ="3dp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivModule"
+                    app:layout_constraintEnd_toEndOf="@id/ivModule"
+                    app:layout_constraintStart_toStartOf="@id/ivModule"
+                    app:layout_constraintTop_toTopOf="@id/ivModule" />
 
                 <LinearLayout
                     android:id="@+id/llDescription"
@@ -153,25 +157,56 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="16dp"
+                        android:text="Tingkat Kesulitan"
+                        android:translationZ="2dp" />
+
+                    <RadioGroup
+                        android:id="@+id/rgDifficulty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rbBasic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dasar" />
+
+                        <RadioButton
+                            android:id="@+id/rbIntermediate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Menengah" />
+
+                        <RadioButton
+                            android:id="@+id/rbAdvanced"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lanjut" />
+                    </RadioGroup>
+
+                    <TextView
+                        style="@style/Poppins.600.Black.20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
                         android:text="Deskripsi"
-                        android:translationZ="2dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/cardIvContainer"
-                        app:layout_constraintEnd_toEndOf="@id/ivModule"
-                        app:layout_constraintStart_toStartOf="@id/cardIvContainer"
-                        app:layout_constraintTop_toBottomOf="@id/ivModule" />
+                        android:translationZ="2dp" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/etAddDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:hint="Tambahkan Deskripsi Modul"
                         android:layout_marginTop="8dp"
+                        android:hint="Tambahkan Deskripsi Modul"
                         android:textColorHint="#64748B"
+                        android:translationZ="2dp"
                         app:boxBackgroundColor="#F3F5F8"
                         app:boxStrokeColor="#F3F5F8"
                         app:boxStrokeWidth="0dp"
-                        android:translationZ="2dp"
                         app:layout_constraintBottom_toBottomOf="@+id/cardIvContainer"
                         app:layout_constraintEnd_toEndOf="@id/ivModule"
                         app:layout_constraintStart_toStartOf="@id/cardIvContainer"
@@ -192,9 +227,9 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:orientation="horizontal"
-                        android:paddingVertical="16dp">
+                        android:paddingVertical="16dp"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/Poppins.Black60.14sp"
@@ -232,7 +267,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/llDescription"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_create_video" />
+                    tools:listitem="@layout/item_submodule" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -245,22 +280,32 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnDelete"
+                android:id="@+id/btnAddQuiz"
                 style="@style/Button.Primary15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_weight="1"
-                android:text="Hapus Kuis" />
+                android:visibility="gone"
+                android:text="Tambah Kuis" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnEdit"
-                style="@style/Button.Primary15"
-                android:layout_width="wrap_content"
+            <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btnSubmit"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_weight="1"
-                android:text="Edit Kuis" />
+                android:background="@drawable/sample"
+                android:text="Buat Modul"
+                android:enabled="false"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etPassword"
+                app:spinning_bar_color="#FFF"
+                app:initialCornerAngle="16dp"
+                app:spinning_bar_padding="6dp"
+                app:spinning_bar_width="4dp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

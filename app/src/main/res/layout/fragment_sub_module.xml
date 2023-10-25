@@ -81,7 +81,7 @@
                     android:background="@drawable/bg_sub_module"
                     android:orientation="vertical"
                     app:cardCornerRadius="20dp"
-                    app:cardElevation="1dp"
+                    app:cardElevation="2dp"
                     app:layout_constraintEnd_toEndOf="@+id/etSearch"
                     app:layout_constraintStart_toStartOf="@+id/etSearch"
                     app:layout_constraintTop_toBottomOf="@+id/etSearch" />

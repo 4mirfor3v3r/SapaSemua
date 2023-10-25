@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="amirlabs.sapasemua.ui.menu.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_translateFragment"
+            app:destination="@id/translateFragment" />
+    </fragment>
     <fragment
         android:id="@+id/forumFragment"
         android:name="amirlabs.sapasemua.ui.menu.forum.ForumFragment"
@@ -30,6 +34,9 @@
         <action
             android:id="@+id/action_moduleFragment_to_addModuleFragment"
             app:destination="@id/addModuleFragment" />
+        <action
+            android:id="@+id/action_moduleFragment_to_subModuleFragment"
+            app:destination="@id/subModuleFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -40,7 +47,11 @@
         android:id="@+id/addModuleFragment"
         android:name="amirlabs.sapasemua.ui.menu.module.add_module.AddModuleFragment"
         android:label="AddModuleFragment"
-        tools:layout="@layout/fragment_add_module" />
+        tools:layout="@layout/fragment_add_module" >
+        <action
+            android:id="@+id/action_addModuleFragment_to_addQuizFragment"
+            app:destination="@id/addQuizFragment" />
+    </fragment>
     <fragment
         android:id="@+id/forumListFragment"
         android:name="amirlabs.sapasemua.ui.menu.forum.list.ForumListFragment"
@@ -51,4 +62,28 @@
         android:name="amirlabs.sapasemua.ui.menu.forum.create_discussion.CreateDiscussionFragment"
         android:label="CreateDiscussionFragment"
         tools:layout="@layout/fragment_create_discussion" />
+    <fragment
+        android:id="@+id/subModuleFragment"
+        tools:layout="@layout/fragment_sub_module"
+        android:name="amirlabs.sapasemua.ui.menu.module.submodule.SubModuleFragment"
+        android:label="SubModuleFragment" >
+        <argument
+            android:name="moduleId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addQuizFragment"
+        tools:layout="@layout/fragment_add_quiz"
+        android:name="amirlabs.sapasemua.ui.menu.module.add_quiz.AddQuizFragment"
+        android:label="AddQuizFragment" >
+        <argument
+            android:name="moduleId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/translateFragment"
+        tools:layout="@layout/fragment_translate"
+        android:name="amirlabs.sapasemua.ui.menu.translate.TranslateFragment"
+        android:label="TranslateFragment" />
 </navigation>
