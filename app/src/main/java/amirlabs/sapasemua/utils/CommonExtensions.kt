@@ -3,6 +3,8 @@ package amirlabs.sapasemua.utils
 import amirlabs.sapasemua.base.ViewModelFactory
 import amirlabs.sapasemua.data.local.DevPreferenceManager
 import android.content.Context
+import android.text.SpannableString
+import android.text.style.BulletSpan
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -23,4 +25,14 @@ fun logDebug(vararg message: String?) {
 
 fun logError(vararg message: String?) {
     Log.e("TAG_ERROR", message.toList().toString())
+}
+
+fun List<String>.toBulletedList(): CharSequence {
+    return SpannableString(this.joinToString("\n")).apply {
+        this@toBulletedList.foldIndexed(0) { index, acc, span ->
+            val end = acc + span.length + if (index != this@toBulletedList.size - 1) 1 else 0
+            this.setSpan(BulletSpan(16), acc, end, 0)
+            end
+        }
+    }
 }

@@ -13,8 +13,12 @@ data class User(
     val password:String?,
     @SerializedName("avatar")
     val avatar:String?,
+    @SerializedName("domicile")
+    val domicile:String?,
     @SerializedName("bio")
     val bio:String?,
+    @SerializedName("role")
+    val role:String?,
     @SerializedName("createdAt")
     val createdAt:String?,
     @SerializedName("updatedAt")

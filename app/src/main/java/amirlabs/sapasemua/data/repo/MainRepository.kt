@@ -12,6 +12,8 @@ import java.io.File
 interface MainRepository {
     fun login(user: Map<String, Any>): Single<BaseResponse<User>>
     fun register(user: Map<String, Any>): Single<BaseResponse<User>>
+    fun getProfile(userId: String): Single<BaseResponse<User>>
+    fun updateProfile(body: Map<String?, Any>, avatar: File?): Single<BaseResponse<User>>
     fun getAllModule(): Single<BaseResponse<List<Module>>>
     fun getOneModule(moduleId: String): Single<BaseResponse<Module>>
     fun getOneSubModule(submoduleId: String): Single<BaseResponse<SubModule>>

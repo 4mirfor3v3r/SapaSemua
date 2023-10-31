@@ -56,6 +56,26 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
         return mainApi.register(user)
     }
 
+    override fun getProfile(userId: String): Single<BaseResponse<User>> {
+        return mainApi.getProfile(userId)
+    }
+
+    override fun updateProfile(body: Map<String?, Any>, avatar: File?): Single<BaseResponse<User>> {
+        val sentBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+        if (body.containsKey("id")) sentBody.addFormDataPart("id", body["id"].toString())
+        if (body.containsKey("name")) sentBody.addFormDataPart("name", body["name"].toString())
+        if (body.containsKey("email")) sentBody.addFormDataPart("email", body["email"].toString())
+        if (body.containsKey("domicile")) sentBody.addFormDataPart("domicile", body["domicile"].toString())
+        if (body.containsKey("bio")) sentBody.addFormDataPart("bio", body["bio"].toString())
+        if (avatar != null){
+            val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "avatar", avatar.name, avatar.asRequestBody("image/*".toMediaTypeOrNull())
+            )
+            sentBody.addPart(filePart)
+        }
+        return mainApi.updateProfile(sentBody.build())
+    }
+
     override fun getAllModule(): Single<BaseResponse<List<Module>>> {
         return mainApi.getAllModule()
     }

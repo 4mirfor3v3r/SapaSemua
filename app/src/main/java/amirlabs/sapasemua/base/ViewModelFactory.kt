@@ -13,6 +13,7 @@ import amirlabs.sapasemua.ui.menu.module.lesson.LessonViewModel
 import amirlabs.sapasemua.ui.menu.module.list_quiz.ListQuizViewModel
 import amirlabs.sapasemua.ui.menu.module.quiz.QuizViewModel
 import amirlabs.sapasemua.ui.menu.module.submodule.SubModuleViewModel
+import amirlabs.sapasemua.ui.menu.profile.ProfileViewModel
 import amirlabs.sapasemua.ui.menu.translate.TranslateViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +38,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(ListQuizViewModel::class.java) -> ListQuizViewModel(mainRepo) as T
             modelClass.isAssignableFrom(AddQuizViewModel::class.java) -> AddQuizViewModel(mainRepo) as T
             modelClass.isAssignableFrom(QuizViewModel::class.java) -> QuizViewModel(mainRepo) as T
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(mainRepo) as T
 //            modelClass.isAssignableFrom(CCTVViewModel::class.java) -> CCTVViewModel(disposable, restRepository) as T
 //            modelClass.isAssignableFrom(ReportViewModel::class.java) -> ReportViewModel(disposable, repository, restRepository) as T
 //            modelClass.isAssignableFrom(SafeRouteViewModel::class.java) -> SafeRouteViewModel(disposable, repository, restRepository) as T

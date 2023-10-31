@@ -23,6 +23,12 @@ interface MainService {
     @POST("auth/register")
     fun register(@Body body: Map<String, Any>): Single<BaseResponse<User>>
 
+    @GET("auth/{id}")
+    fun getProfile(@Path("id") userId: String): Single<BaseResponse<User>>
+
+    @POST("auth/update")
+    fun updateProfile(@Body body:MultipartBody): Single<BaseResponse<User>>
+
     @GET("module/get-all")
     fun getAllModule(): Single<BaseResponse<List<Module>>>
 

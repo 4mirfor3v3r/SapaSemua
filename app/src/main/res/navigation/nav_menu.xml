@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_menu"
-    app:startDestination="@id/quizResultFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -42,7 +42,14 @@
         android:id="@+id/profileFragment"
         android:name="amirlabs.sapasemua.ui.menu.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_profileDetailFragment"
+            app:destination="@id/profileDetailFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addModuleFragment"
         android:name="amirlabs.sapasemua.ui.menu.module.add_module.AddModuleFragment"
@@ -136,4 +143,18 @@
             android:name="resultId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/profileDetailFragment"
+        tools:layout="@layout/fragment_profile_detail"
+        android:name="amirlabs.sapasemua.ui.menu.profile.ProfileDetailFragment"
+        android:label="ProfileDetailFragment" >
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        tools:layout="@layout/fragment_about_us"
+        android:name="amirlabs.sapasemua.ui.menu.profile.AboutUsFragment"
+        android:label="AboutUsFragment" />
 </navigation>

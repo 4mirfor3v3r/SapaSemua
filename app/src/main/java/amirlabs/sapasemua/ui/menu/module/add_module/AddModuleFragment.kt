@@ -53,7 +53,7 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
                         it.name = title
                         it.duration = duration
                         adapter.updateOne(it,position)
-                        submodule.add(mapOf("name" to title, "duration" to duration!!))
+                        submodule[position] = mapOf("name" to title, "duration" to duration!!)
                     }
                 })
         }, {
