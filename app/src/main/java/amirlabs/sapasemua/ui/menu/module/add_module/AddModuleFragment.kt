@@ -21,7 +21,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.net.toFile
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -34,7 +33,6 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import java.io.InputStream
 
 
 class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragment_add_module) {
@@ -42,13 +40,13 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
     private val menuNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_menu) }
     private lateinit var pickImage: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var pickVideo: ActivityResultLauncher<PickVisualMediaRequest>
-    private lateinit var adapter: SubModuleAdapter
+    private lateinit var adapter: AddModuleAdapter
     private var image: File? = null
     private var video: ArrayList<File> = arrayListOf()
     private var submodule: ArrayList<Map<String, Any>> = arrayListOf()
     private var level = 1
     override fun initData() {
-        adapter = SubModuleAdapter({ it, position ->
+        adapter = AddModuleAdapter({ it, position ->
             DialogUtils.showAddScheduleDialog(requireContext(),
                 saveButtonClicked = { title, duration ->
                     if(title?.isNotEmpty() == true && duration != -1){
@@ -200,13 +198,12 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
         vm.createResult.observe(viewLifecycleOwner) {
             when (it) {
                 is DevState.Loading -> {
-                    binding.btnSubmit.startAnimation()
-
                     binding.etAddSubject.isEnabled = false
                     binding.etAddDesc.isEnabled = false
                     binding.btnSubmit.isClickable = false
                     binding.ivModule.isClickable = false
                     binding.btnAddQuiz.isClickable = false
+                    binding.btnSubmit.startAnimation()
                 }
 
                 is DevState.Success -> {
@@ -215,7 +212,7 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
                             ResourcesCompat.getDrawable(resources, R.drawable.sample, null)
                     }
                     menuNavController?.navigate(
-                        AddModuleFragmentDirections.actionAddModuleFragmentToAddQuizFragment(
+                        AddModuleFragmentDirections.actionAddModuleFragmentToListQuizFragment(
                             it.data.id ?: ""
                         )
                     )

@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 
-class SubModuleAdapter(private val onItemClick: (SubModule, Int) -> Unit,private val onAddClick: () -> Unit)
+class AddModuleAdapter(private val onItemClick: (SubModule, Int) -> Unit, private val onAddClick: () -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val listData = ArrayList<SubModule>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

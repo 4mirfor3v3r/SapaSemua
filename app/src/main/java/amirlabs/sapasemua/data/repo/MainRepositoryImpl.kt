@@ -4,6 +4,9 @@ import amirlabs.sapasemua.data.api.service.MainService
 import amirlabs.sapasemua.data.local.dao.VideoDao
 import amirlabs.sapasemua.data.model.BaseResponse
 import amirlabs.sapasemua.data.model.Module
+import amirlabs.sapasemua.data.model.Quiz
+import amirlabs.sapasemua.data.model.QuizResult
+import amirlabs.sapasemua.data.model.SubModule
 import amirlabs.sapasemua.data.model.User
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -57,6 +60,13 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
         return mainApi.getAllModule()
     }
 
+    override fun getOneModule(moduleId: String): Single<BaseResponse<Module>> {
+        return mainApi.getOneModule(moduleId)
+    }
+
+    override fun getOneSubModule(submoduleId: String): Single<BaseResponse<SubModule>> {
+        return mainApi.getOneSubModule(submoduleId)
+    }
     override fun createModule(
         id: String?, module: Map<String, Any>, image: File, submodule:List<Map<String, Any>>, video:List<File>
     ): Single<BaseResponse<Module>> {
@@ -79,4 +89,42 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
         }
         return mainApi.createModule(body.build())
     }
+
+    override fun createQuiz(
+        body: Map<String, Any>,
+        attachment: File
+    ): Single<BaseResponse<Quiz>> {
+        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "attachment", attachment.name, attachment.asRequestBody("*/*".toMediaTypeOrNull())
+        )
+        val body = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("module", body["module"].toString())
+            .addFormDataPart("question", body["question"].toString())
+            .addFormDataPart("answer", body["answer"].toString())
+            .addFormDataPart("option1", body["option1"].toString())
+            .addFormDataPart("option2", body["option2"].toString())
+            .addFormDataPart("option3", body["option3"].toString())
+            .addFormDataPart("option4", body["option4"].toString())
+            .addPart(filePart)
+        return mainApi.createQuiz(body.build())
+    }
+
+    override fun getQuizByModule(moduleId: String): Single<BaseResponse<List<Quiz>>> {
+        return mainApi.getQuizByModule(moduleId)
+    }
+
+    override fun getQuizQuestion(moduleId: String): Single<BaseResponse<List<Quiz>>> {
+        return mainApi.getQuizQuestion(moduleId)
+    }
+
+    override fun submitQuiz(
+        body:Map<String, Any>
+    ): Single<BaseResponse<QuizResult>> {
+        return mainApi.submitQuiz(body)
+    }
+
+    override fun getQuizResult(resultId: String): Single<BaseResponse<QuizResult>> {
+        return mainApi.getQuizResult(resultId)
+    }
+
 }

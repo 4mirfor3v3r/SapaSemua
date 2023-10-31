@@ -101,26 +101,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <VideoView
+                            android:id="@+id/videoQuiz"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/black_60" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/btnAddImage"
+                            android:id="@+id/btnPlayVideo"
                             android:layout_width="40dp"
+                            android:visibility="gone"
+                            tools:visibility="visible"
                             android:layout_height="40dp"
-                            android:background="@drawable/bg_white_outline_rounded_5"
-                            android:src="@drawable/ic_add"
-                            android:translationZ="3dp"
+                            android:src="@drawable/ic_play_lesson"
                             app:layout_constraintBottom_toBottomOf="@id/videoQuiz"
                             app:layout_constraintEnd_toEndOf="@id/videoQuiz"
                             app:layout_constraintStart_toStartOf="@id/videoQuiz"
                             app:layout_constraintTop_toTopOf="@id/videoQuiz" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/videoQuiz"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/black_60"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_image" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -269,9 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
                     app:cardCornerRadius="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/option3">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -311,6 +307,51 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
+                <TextView
+                    android:id="@+id/tvLabelAnswer"
+                    style="@style/Poppins.600.Black.20sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/option4"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Jawaban Benar"
+                    android:translationZ="2dp" />
+
+                <RadioGroup
+                    android:id="@+id/rgCorrectAnswer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tvLabelAnswer"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbCorrect1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Opsi 1" />
+
+                    <RadioButton
+                        android:id="@+id/rbCorrect2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Opsi 2" />
+
+                    <RadioButton
+                        android:id="@+id/rbCorrect3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Opsi 3" />
+
+                    <RadioButton
+                        android:id="@+id/rbCorrect4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Opsi 4" />
+                </RadioGroup>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -331,15 +372,23 @@
                 android:visibility="gone"
                 android:text="Sebelumnya" />
 
-
-            <androidx.appcompat.widget.AppCompatButton
+            <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btnSubmit"
-                style="@style/Button.Primary15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_weight="1"
-                android:text="Simpan Kuis" />
+                android:background="@drawable/sample"
+                android:text="Simpan Kuis"
+                android:enabled="false"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etPassword"
+                app:spinning_bar_color="#FFF"
+                app:initialCornerAngle="16dp"
+                app:spinning_bar_padding="6dp"
+                app:spinning_bar_width="4dp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

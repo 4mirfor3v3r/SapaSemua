@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F5F9FF"
-        tools:context=".ui.menu.module.quiz.QuizFragment">
+        tools:context=".ui.menu.module.list_quiz.ListQuizFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/toolbar"
@@ -32,49 +32,36 @@
                 style="@style/Poppins.600.Black.18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kuis"
+                android:text="Daftar Pertanyaan"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vpQuiz"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintBottom_toTopOf="@id/llAction"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvListQuiz"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            tools:background="@color/secondary"
-            android:nestedScrollingEnabled="false"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            tools:listitem="@layout/item_list_quiz"
+            android:paddingHorizontal="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-        <LinearLayout
-            android:id="@+id/llAction"
-            android:layout_width="match_parent"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAddQuiz"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnPrev"
-                style="@style/Button.Primary15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_weight="1"
-                android:text="Sebelumnya" />
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnNext"
-                style="@style/Button.Primary15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_weight="1"
-                android:text="Selanjutnya" />
-        </LinearLayout>
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/primary"
+            android:src="@drawable/ic_add"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white"
+            tools:ignore="SpeakableTextPresentCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

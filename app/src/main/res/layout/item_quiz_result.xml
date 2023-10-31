@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/option2"
+        android:id="@+id/cardResult"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
@@ -26,6 +26,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tvAnswer"
                 style="@style/Poppins.600.Black.16sp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

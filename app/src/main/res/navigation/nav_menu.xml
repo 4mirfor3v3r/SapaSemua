@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_menu"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/quizResultFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -49,8 +49,8 @@
         android:label="AddModuleFragment"
         tools:layout="@layout/fragment_add_module" >
         <action
-            android:id="@+id/action_addModuleFragment_to_addQuizFragment"
-            app:destination="@id/addQuizFragment" />
+            android:id="@+id/action_addModuleFragment_to_listQuizFragment"
+            app:destination="@id/listQuizFragment" />
     </fragment>
     <fragment
         android:id="@+id/forumListFragment"
@@ -71,6 +71,12 @@
             android:name="moduleId"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_subModuleFragment_to_lessonFragment"
+            app:destination="@id/lessonFragment" />
+        <action
+            android:id="@+id/action_subModuleFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
     </fragment>
     <fragment
         android:id="@+id/addQuizFragment"
@@ -86,4 +92,48 @@
         tools:layout="@layout/fragment_translate"
         android:name="amirlabs.sapasemua.ui.menu.translate.TranslateFragment"
         android:label="TranslateFragment" />
+    <fragment
+        android:id="@+id/lessonFragment"
+        tools:layout="@layout/fragment_lesson"
+        android:name="amirlabs.sapasemua.ui.menu.module.lesson.LessonFragment"
+        android:label="LessonFragment" >
+        <argument
+            android:name="lessonId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/listQuizFragment"
+        tools:layout="@layout/fragment_list_quiz"
+        android:name="amirlabs.sapasemua.ui.menu.module.list_quiz.ListQuizFragment"
+        android:label="ListQuizFragment" >
+        <action
+            android:id="@+id/action_listQuizFragment_to_addQuizFragment"
+            app:destination="@id/addQuizFragment" />
+        <argument
+            android:name="moduleId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        tools:layout="@layout/fragment_quiz"
+        android:name="amirlabs.sapasemua.ui.menu.module.quiz.QuizFragment"
+        android:label="QuizFragment" >
+        <action
+            android:id="@+id/action_quizFragment_to_quizResultFragment"
+            app:destination="@id/quizResultFragment"
+            app:popUpTo="@id/quizFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="moduleId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizResultFragment"
+        tools:layout="@layout/fragment_quiz_result"
+        android:name="amirlabs.sapasemua.ui.menu.module.quiz.QuizResultFragment"
+        android:label="QuizResultFragment" >
+        <argument
+            android:name="resultId"
+            app:argType="string" />
+    </fragment>
 </navigation>
