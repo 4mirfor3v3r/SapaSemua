@@ -5,6 +5,10 @@ import amirlabs.sapasemua.data.local.AppDatabase
 import amirlabs.sapasemua.data.repo.MainRepositoryImpl
 import amirlabs.sapasemua.ui.auth.login.LoginViewModel
 import amirlabs.sapasemua.ui.auth.register.RegisterViewModel
+import amirlabs.sapasemua.ui.menu.forum.ForumViewModel
+import amirlabs.sapasemua.ui.menu.forum.create_discussion.CreateDiscussionViewModel
+import amirlabs.sapasemua.ui.menu.forum.detail.ForumDetailViewModel
+import amirlabs.sapasemua.ui.menu.forum.list.ForumListViewModel
 import amirlabs.sapasemua.ui.menu.home.HomeViewModel
 import amirlabs.sapasemua.ui.menu.module.ModuleViewModel
 import amirlabs.sapasemua.ui.menu.module.add_module.AddModuleViewModel
@@ -39,6 +43,10 @@ class ViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(AddQuizViewModel::class.java) -> AddQuizViewModel(mainRepo) as T
             modelClass.isAssignableFrom(QuizViewModel::class.java) -> QuizViewModel(mainRepo) as T
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(mainRepo) as T
+            modelClass.isAssignableFrom(ForumViewModel::class.java) -> ForumViewModel(mainRepo) as T
+            modelClass.isAssignableFrom(ForumListViewModel::class.java) -> ForumListViewModel(mainRepo) as T
+            modelClass.isAssignableFrom(ForumDetailViewModel::class.java) -> ForumDetailViewModel(mainRepo) as T
+            modelClass.isAssignableFrom(CreateDiscussionViewModel::class.java) -> CreateDiscussionViewModel(mainRepo) as T
 //            modelClass.isAssignableFrom(CCTVViewModel::class.java) -> CCTVViewModel(disposable, restRepository) as T
 //            modelClass.isAssignableFrom(ReportViewModel::class.java) -> ReportViewModel(disposable, repository, restRepository) as T
 //            modelClass.isAssignableFrom(SafeRouteViewModel::class.java) -> SafeRouteViewModel(disposable, repository, restRepository) as T

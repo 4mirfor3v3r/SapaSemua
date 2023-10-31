@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_menu"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/createDiscussionFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_forumFragment_to_createDiscussionFragment"
             app:destination="@id/createDiscussionFragment" />
+        <action
+            android:id="@+id/action_forumFragment_to_forumDetailFragment"
+            app:destination="@id/forumDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/moduleFragment"
@@ -63,7 +66,11 @@
         android:id="@+id/forumListFragment"
         android:name="amirlabs.sapasemua.ui.menu.forum.list.ForumListFragment"
         android:label="ForumListFragment"
-        tools:layout="@layout/fragment_forum_list" />
+        tools:layout="@layout/fragment_forum_list" >
+        <action
+            android:id="@+id/action_forumListFragment_to_forumDetailFragment"
+            app:destination="@id/forumDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createDiscussionFragment"
         android:name="amirlabs.sapasemua.ui.menu.forum.create_discussion.CreateDiscussionFragment"
@@ -157,4 +164,13 @@
         tools:layout="@layout/fragment_about_us"
         android:name="amirlabs.sapasemua.ui.menu.profile.AboutUsFragment"
         android:label="AboutUsFragment" />
+    <fragment
+        android:id="@+id/forumDetailFragment"
+        tools:layout="@layout/fragment_forum_detail"
+        android:name="amirlabs.sapasemua.ui.menu.forum.detail.ForumDetailFragment"
+        android:label="ForumDetailFragment" >
+        <argument
+            android:name="forumId"
+            app:argType="string" />
+    </fragment>
 </navigation>

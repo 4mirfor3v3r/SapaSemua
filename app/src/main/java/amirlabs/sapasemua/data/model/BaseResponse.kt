@@ -11,5 +11,11 @@ data class BaseResponse<MODEL>(
     val data:MODEL?,
 
     @SerializedName("access_token")
-    val token:String?=null
+    val token:String?=null,
+
+    @SerializedName("page")
+    val page:Int?=null,
+
+    @SerializedName("totalPage")
+    val totalPage:Int?=null
 )

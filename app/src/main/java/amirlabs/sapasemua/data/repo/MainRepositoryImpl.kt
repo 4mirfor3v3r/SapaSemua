@@ -3,6 +3,7 @@ package amirlabs.sapasemua.data.repo
 import amirlabs.sapasemua.data.api.service.MainService
 import amirlabs.sapasemua.data.local.dao.VideoDao
 import amirlabs.sapasemua.data.model.BaseResponse
+import amirlabs.sapasemua.data.model.Forum
 import amirlabs.sapasemua.data.model.Module
 import amirlabs.sapasemua.data.model.Quiz
 import amirlabs.sapasemua.data.model.QuizResult
@@ -145,6 +146,25 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
 
     override fun getQuizResult(resultId: String): Single<BaseResponse<QuizResult>> {
         return mainApi.getQuizResult(resultId)
+    }
+
+    override fun createForum(body: Map<String, Any>): Single<BaseResponse<Forum>> {
+        return mainApi.createForum(body)
+    }
+
+    override fun getForum(page: Int, pageSize: Int): Single<BaseResponse<List<Forum>>> {
+        return mainApi.getForum(page, pageSize)
+    }
+
+    override fun getForumDetail(forumId: String): Single<BaseResponse<Forum>> {
+        return mainApi.getForumDetail(forumId)
+    }
+
+    override fun addComment(
+        forumId: String,
+        body: Map<String, Any>
+    ): Single<BaseResponse<Forum>> {
+        return mainApi.addComment(forumId, body)
     }
 
 }

@@ -1,6 +1,7 @@
 package amirlabs.sapasemua.data.api.service
 
 import amirlabs.sapasemua.data.model.BaseResponse
+import amirlabs.sapasemua.data.model.Forum
 import amirlabs.sapasemua.data.model.Module
 import amirlabs.sapasemua.data.model.Quiz
 import amirlabs.sapasemua.data.model.QuizResult
@@ -58,4 +59,16 @@ interface MainService {
 
     @GET("module/quiz/result/{id}")
     fun getQuizResult(@Path("id") resultId: String): Single<BaseResponse<QuizResult>>
+
+    @POST("forum/create")
+    fun createForum(@Body body: Map<String, Any>): Single<BaseResponse<Forum>>
+
+    @GET("forum/get-all")
+    fun getForum(@Query("page") page:Int, @Query("pageSize") pageSize:Int): Single<BaseResponse<List<Forum>>>
+
+    @GET("forum/{id}")
+    fun getForumDetail(@Path("id") forumId:String): Single<BaseResponse<Forum>>
+
+    @POST("forum/{forum_id}/comment")
+    fun addComment(@Path("forum_id") forumId:String, @Body body: Map<String, Any>): Single<BaseResponse<Forum>>
 }
