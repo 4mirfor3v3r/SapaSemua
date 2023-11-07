@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.base.DevFragment
 import amirlabs.sapasemua.base.DevViewModel
+import amirlabs.sapasemua.data.model.HandCoordinate
+import amirlabs.sapasemua.data.model.Subscribe
 import amirlabs.sapasemua.databinding.FragmentTranslateBinding
 import amirlabs.sapasemua.utils.getViewModel
 import amirlabs.sapasemua.utils.logError
@@ -26,11 +28,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.google.mediapipe.tasks.components.containers.Category
 import com.google.mediapipe.tasks.vision.core.RunningMode
+import com.tinder.scarlet.Message
+import com.tinder.scarlet.WebSocket
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class TranslateFragment : DevFragment<FragmentTranslateBinding>(R.layout.fragment_translate), HandLandmarkerHelper.LandmarkerListener {
+class TranslateFragment : DevFragment<FragmentTranslateBinding>(R.layout.fragment_translate),
+    HandLandmarkerHelper.LandmarkerListener {
     override val vm: TranslateViewModel by getViewModel()
     private lateinit var handLandmarkerHelper: HandLandmarkerHelper
     private var preview: Preview? = null
@@ -72,9 +77,26 @@ class TranslateFragment : DevFragment<FragmentTranslateBinding>(R.layout.fragmen
                 handLandmarkerHelper.setupHandLandmarker()
             }
         }
+        vm.listenEvent()
     }
 
     override fun initObserver() {
+        vm.eventListener.observe(viewLifecycleOwner) {
+            when (it) {
+                is WebSocket.Event.OnMessageReceived -> {
+                    if(it.message is Message.Text) {
+                        binding.tvResult.text = (it.message as Message.Text).value
+                    }
+                }
+                is WebSocket.Event.OnConnectionClosed -> {
+                    Log.d("Translate", "onClosed")
+                }
+                is WebSocket.Event.OnConnectionFailed -> {
+                    Log.d("Translate", "onFailed")
+                }
+                else->{}
+            }
+        }
     }
 
     private fun setUpCamera() {
@@ -142,6 +164,7 @@ class TranslateFragment : DevFragment<FragmentTranslateBinding>(R.layout.fragmen
             isFrontCamera = cameraFacing == CameraSelector.LENS_FACING_FRONT
         )
     }
+
     override fun onResume() {
         super.onResume()
         // Make sure that all permissions are still present, since the
@@ -160,9 +183,10 @@ class TranslateFragment : DevFragment<FragmentTranslateBinding>(R.layout.fragmen
 //            }
 //        }
     }
+
     override fun onPause() {
         super.onPause()
-        if(this::handLandmarkerHelper.isInitialized) {
+        if (this::handLandmarkerHelper.isInitialized) {
             vm.setMaxHands(handLandmarkerHelper.maxNumHands)
             vm.setMinHandDetectionConfidence(handLandmarkerHelper.minHandDetectionConfidence)
             vm.setMinHandTrackingConfidence(handLandmarkerHelper.minHandTrackingConfidence)
@@ -196,7 +220,19 @@ class TranslateFragment : DevFragment<FragmentTranslateBinding>(R.layout.fragmen
     }
 
     override fun onResults(resultBundle: HandLandmarkerHelper.ResultBundle) {
-        logError(resultBundle.results.firstOrNull()?.handednesses().toString())
+        if (resultBundle.results.isNotEmpty()) {
+            val landmarks = resultBundle.results.first().landmarks()
+            if (landmarks.isNotEmpty()) {
+                val body = Subscribe(
+                    landmarks.first().map {
+                        HandCoordinate(it.x(), it.y(), it.z())
+                    }
+                )
+                vm.sendCoordinates(body)
+
+            }
+
+        }
         activity?.runOnUiThread {
             // Pass necessary information to OverlayView for drawing on the canvas
             binding.overlay.setResults(

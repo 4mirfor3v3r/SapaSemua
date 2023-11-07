@@ -1,8 +1,13 @@
 package amirlabs.sapasemua.ui.menu.translate
 
 import amirlabs.sapasemua.base.DevViewModel
+import amirlabs.sapasemua.data.model.Subscribe
 import amirlabs.sapasemua.data.repo.MainRepository
+import amirlabs.sapasemua.utils.logError
 import amirlabs.sapasemua.utils.mediapipe.HandLandmarkerHelper
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.tinder.scarlet.WebSocket
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class TranslateViewModel(private val repo: MainRepository) : DevViewModel(){
@@ -28,6 +33,14 @@ class TranslateViewModel(private val repo: MainRepository) : DevViewModel(){
             _minHandPresenceConfidence
     val currentMaxHands: Int get() = _maxHands
 
+    private val _eventListener = MutableLiveData<WebSocket.Event>()
+    val eventListener: LiveData<WebSocket.Event>
+        get() = _eventListener
+
+    private val _resultListener = MutableLiveData<String>()
+    val resultListener: LiveData<String>
+        get() = _resultListener
+
     fun setDelegate(delegate: Int) {
         _delegate = delegate
     }
@@ -44,6 +57,25 @@ class TranslateViewModel(private val repo: MainRepository) : DevViewModel(){
 
     fun setMaxHands(maxResults: Int) {
         _maxHands = maxResults
+    }
+
+    fun listenEvent() {
+        repo.observeSocketConnection()
+            .subscribe {
+                _eventListener.postValue(it)
+            }.let(disposable::add)
+    }
+
+    fun sendCoordinates(body:Subscribe){
+        repo.sendCoordinates(body)
+    }
+
+    fun listenResultText(){
+        repo.getTranslateResult()
+            .subscribe {
+                logError(it)
+                _resultListener.postValue(it)
+            }.let(disposable::add)
     }
 
     override fun onCleared() {

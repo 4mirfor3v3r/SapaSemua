@@ -6,7 +6,10 @@ import amirlabs.sapasemua.data.model.Module
 import amirlabs.sapasemua.data.model.Quiz
 import amirlabs.sapasemua.data.model.QuizResult
 import amirlabs.sapasemua.data.model.SubModule
+import amirlabs.sapasemua.data.model.Subscribe
 import amirlabs.sapasemua.data.model.User
+import com.tinder.scarlet.WebSocket
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import java.io.File
 
@@ -31,4 +34,8 @@ interface MainRepository {
     fun getForum(page:Int, pageSize:Int): Single<BaseResponse<List<Forum>>>
     fun getForumDetail(forumId:String): Single<BaseResponse<Forum>>
     fun addComment(forumId:String, body: Map<String, Any>): Single<BaseResponse<Forum>>
+
+    fun sendCoordinates(body: Subscribe)
+    fun getTranslateResult(): Flowable<String>
+    fun observeSocketConnection(): Flowable<WebSocket.Event>
 }

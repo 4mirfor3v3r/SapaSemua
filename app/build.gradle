@@ -17,7 +17,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-//        buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:19003/api/v1/\""
+        buildConfigField "String", "SOCKET_BASE_URL", "\"ws://sapasemua-translator.amirlabs.my.id/translate\""
+//        buildConfigField "String", "BASE_URL", "\"http://192.168.0.188:19003/api/v1/\""
         buildConfigField "String", "BASE_URL", "\"https://sapasemua.amirlabs.my.id/api/v1/\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,6 +66,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation "io.reactivex.rxjava3:rxjava:3.1.2"
+
+    implementation 'com.tinder.scarlet:scarlet:0.1.12'
+    implementation "com.tinder.scarlet:websocket-okhttp:0.1.12"
+    implementation 'com.tinder.scarlet:message-adapter-gson:0.1.12'
+    implementation 'com.tinder.scarlet:lifecycle-android:0.1.12'
 
     // Database
     implementation "androidx.room:room-runtime:2.5.2"

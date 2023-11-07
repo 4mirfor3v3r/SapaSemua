@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.menu.translate.TranslateFragment">
+
         <androidx.camera.view.PreviewView
             android:id="@+id/view_finder"
             android:layout_width="match_parent"
@@ -16,5 +17,21 @@
             android:id="@+id/overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tvResult"
+            style="@style/Poppins.Black.14sp"
+            android:background="@drawable/bg_white_rounded_10"
+            android:layout_width="wrap_content"
+            android:minWidth="200dp"
+            android:paddingHorizontal="20dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="32dp"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Result" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
