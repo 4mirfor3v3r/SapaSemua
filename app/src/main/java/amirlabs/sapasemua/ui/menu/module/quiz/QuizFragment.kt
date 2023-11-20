@@ -64,7 +64,7 @@ class QuizFragment : DevFragment<FragmentQuizBinding>(R.layout.fragment_quiz) {
             if (binding.vpQuiz.currentItem < adapter.itemCount - 1) {
                 binding.vpQuiz.currentItem += 1
             } else {
-                vm.submitQuiz(args.moduleId,quizAnswer)
+                vm.submitQuiz(args.moduleId, quizAnswer)
             }
         }
         vm.getQuizByModule(args.moduleId)

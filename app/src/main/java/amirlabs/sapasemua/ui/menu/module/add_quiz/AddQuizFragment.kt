@@ -42,7 +42,7 @@ class AddQuizFragment : DevFragment<FragmentAddQuizBinding>(R.layout.fragment_ad
         val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
         pickVideo = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                context?.contentResolver?.takePersistableUriPermission(uri, flag)
+//                context?.contentResolver?.takePersistableUriPermission(uri, flag)
                 lifecycleScope.launch {
                     val f = File(requireContext().cacheDir, System.currentTimeMillis().toString())
                     withContext(Dispatchers.IO){

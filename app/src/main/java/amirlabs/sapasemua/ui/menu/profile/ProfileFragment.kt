@@ -5,6 +5,7 @@ import amirlabs.sapasemua.base.DevFragment
 import amirlabs.sapasemua.data.model.User
 import amirlabs.sapasemua.databinding.FragmentProfileBinding
 import amirlabs.sapasemua.ui.menu.MenuContainerFragmentDirections
+import amirlabs.sapasemua.utils.PrefsKey
 import amirlabs.sapasemua.utils.prefs
 import android.util.Base64
 import androidx.navigation.NavController
@@ -22,10 +23,10 @@ class ProfileFragment : DevFragment<FragmentProfileBinding>(R.layout.fragment_pr
     override fun initUI() {
         binding.tvName.text = user?.name
         if (user?.avatar != null) {
-            val image: ByteArray = Base64.decode(user.avatar, Base64.DEFAULT)
+//            val image: ByteArray = Base64.decode(user.avatar, Base64.DEFAULT)
             Glide.with(this)
-                .asBitmap()
-                .load(image)
+//                .asBitmap()
+                .load(user.avatar)
                 .error(R.drawable.ic_profile)
                 .into(binding.ivProfile)
         }
@@ -34,6 +35,7 @@ class ProfileFragment : DevFragment<FragmentProfileBinding>(R.layout.fragment_pr
     override fun initAction() {
         binding.btnSignOut.setOnClickListener {
             prefs().clear()
+            prefs().setBoolean(PrefsKey.IS_WALKTHROUGH, false)
             mainNavController?.navigate(MenuContainerFragmentDirections.actionMenuContainerFragmentToAuthContainerFragment())
         }
         binding.btnProfile.setOnClickListener {

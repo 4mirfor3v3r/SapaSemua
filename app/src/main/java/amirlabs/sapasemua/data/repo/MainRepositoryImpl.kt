@@ -120,6 +120,10 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
         return mainApi.getQuizResult(resultId)
     }
 
+    override fun getAllQuizResult(userId: String): Single<BaseResponse<List<QuizResult>>> {
+        return mainApi.getAllQuizResult(userId)
+    }
+
     override fun createForum(body: Map<String, Any>): Single<BaseResponse<Forum>> {
         return mainApi.createForum(body)
     }

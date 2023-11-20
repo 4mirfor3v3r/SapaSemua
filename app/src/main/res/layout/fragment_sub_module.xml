@@ -48,7 +48,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <amirlabs.sapasemua.utils.widget.MultiStateView
+                android:id="@+id/msvSubmodule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:msv_animateViewChanges="true"
+                app:msv_emptyView="@layout/default_empty_layout"
+                app:msv_errorView="@layout/default_error_layout"
+                app:msv_loadingView="@layout/fragment_sub_module_loading">
+                <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -168,7 +176,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginStart="16dp"
                             android:layout_toStartOf="@id/btnQuiz"
-                            tools:text="Yuk asah kemampuanmu\ndengan mengerjakan kuis" />
+                            android:text="Yuk asah kemampuanmu\ndengan mengerjakan kuis" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnQuiz"
@@ -198,6 +206,7 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/item_submodule" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+            </amirlabs.sapasemua.utils.widget.MultiStateView>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

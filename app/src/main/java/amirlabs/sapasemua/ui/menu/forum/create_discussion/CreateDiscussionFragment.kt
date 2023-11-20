@@ -32,10 +32,10 @@ class CreateDiscussionFragment : DevFragment<FragmentCreateDiscussionBinding>(R.
         verifyDescription()
         binding.btnSubmit.isEnabled = isVerified()
         binding.tvForumCreatorName.text = "${vm.user?.name}-(${vm.user?.role})"
-        val image: ByteArray = Base64.decode(vm.user?.avatar ?:"", Base64.DEFAULT)
+//        val image: ByteArray = Base64.decode(vm.user?.avatar ?:"", Base64.DEFAULT)
         Glide.with(binding.root.context)
-            .asBitmap()
-            .load(image)
+//            .asBitmap()
+            .load(vm.user?.avatar)
             .into(binding.ivForumAvatar)
     }
 

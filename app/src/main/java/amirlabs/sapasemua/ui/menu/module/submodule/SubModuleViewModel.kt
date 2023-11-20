@@ -18,7 +18,9 @@ class SubModuleViewModel (private val repo: MainRepository) : DevViewModel(){
         get() = _modules
 
     fun getOneModule(moduleId: String){
+        _modules.value = DevState.loading()
         repo.getOneModule(moduleId)
+            .delay(1000L, java.util.concurrent.TimeUnit.MILLISECONDS)
             .compose(singleScheduler())
             .subscribe({
                 if (it.data != null) _modules.value = DevState.success(it.data)

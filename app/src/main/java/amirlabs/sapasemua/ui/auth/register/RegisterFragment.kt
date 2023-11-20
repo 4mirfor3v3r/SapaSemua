@@ -25,13 +25,10 @@ class RegisterFragment: DevFragment<FragmentRegisterBinding>(R.layout.fragment_r
     }
 
     override fun initUI() {
+        binding.btnRegister.isEnabled = isVerified()
     }
 
     override fun initAction() {
-        verifyFullName()
-        verifyEmail()
-        verifyNewPassword("")
-
         binding.etName.editText?.doAfterTextChanged {
             verifyFullName()
             binding.btnRegister.isEnabled = isVerified()
@@ -139,9 +136,9 @@ class RegisterFragment: DevFragment<FragmentRegisterBinding>(R.layout.fragment_r
     }
 
     private fun isVerified(): Boolean {
-        return binding.etName.error == null &&
-                binding.etEmail.error == null &&
-                binding.etPassword.error == null &&
-                binding.etConfirmPassword.error == null
+        return binding.etName.error == null && binding.etName.editText?.text?.isNotEmpty() == true &&
+                binding.etEmail.error == null && binding.etEmail.editText?.text?.isNotEmpty() == true &&
+                binding.etPassword.error == null && binding.etPassword.editText?.text?.isNotEmpty() == true &&
+                binding.etConfirmPassword.error == null && binding.etConfirmPassword.editText?.text?.isNotEmpty() == true
     }
 }

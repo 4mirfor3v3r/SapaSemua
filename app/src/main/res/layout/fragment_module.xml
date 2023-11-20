@@ -63,7 +63,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabModule"
+            android:id="@+id/tlModule"
             style="@style/RoundedTabLayoutStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,26 +72,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etSearch"
             app:tabMinWidth="150dp">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Modul" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kuis" />
         </com.google.android.material.tabs.TabLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvModule"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpModule"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/tabModule"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlModule"
             tools:listitem="@layout/item_module" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

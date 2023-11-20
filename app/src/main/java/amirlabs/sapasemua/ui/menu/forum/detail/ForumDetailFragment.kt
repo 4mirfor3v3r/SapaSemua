@@ -61,10 +61,10 @@ class ForumDetailFragment : DevFragment<FragmentForumDetailBinding>(R.layout.fra
                     binding.tvForumTitle.text = it.data.title
                     binding.tvForumDesc.text = it.data.description
                     adapter.updateList(it.data.comments)
-                    val image: ByteArray = Base64.decode(it.data.creator?.avatar ?:"", Base64.DEFAULT)
+//                    val image: ByteArray = Base64.decode(it.data.creator?.avatar ?:"", Base64.DEFAULT)
                     Glide.with(binding.root.context)
-                        .asBitmap()
-                        .load(image)
+//                        .asBitmap()
+                        .load(it.data.creator?.avatar)
                         .into(binding.ivForumAvatar)
                 }
                 is DevState.Failure -> {

@@ -89,6 +89,7 @@
                         style="@style/Poppins.600.Black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:minWidth="50dp"
                         android:text="80"
                         android:textSize="60sp" />
                 </LinearLayout>

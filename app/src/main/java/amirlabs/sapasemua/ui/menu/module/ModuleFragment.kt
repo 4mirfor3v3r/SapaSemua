@@ -9,50 +9,35 @@ import amirlabs.sapasemua.utils.logError
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.tabs.TabLayoutMediator
 
 class ModuleFragment : DevFragment<FragmentModuleBinding>(R.layout.fragment_module) {
     override val vm: ModuleViewModel by getViewModel()
+    private lateinit var tabAdapter: ModuleTabAdapter
     private val menuNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_menu) }
-    private lateinit var adapter: ModuleAdapter
     override fun initData() {
-        adapter = ModuleAdapter {
-            menuNavController?.navigate(
-                ModuleFragmentDirections.actionModuleFragmentToSubModuleFragment(
-                    it.id
-                )
-            )
-        }
+        tabAdapter = ModuleTabAdapter(childFragmentManager, lifecycle)
     }
 
     override fun initUI() {
-        binding.rvModule.adapter = adapter
+        binding.vpModule.adapter = tabAdapter
+        TabLayoutMediator(binding.tlModule, binding.vpModule) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Module"
+                1 -> tab.text = "Quiz Result"
+            }
+        }.attach()
     }
 
     override fun initAction() {
         binding.btnAddModule.setOnClickListener {
             menuNavController?.navigate(ModuleFragmentDirections.actionModuleFragmentToAddModuleFragment())
         }
-        vm.getAllModule()
     }
 
     override fun initObserver() {
-        vm.modules.observe(viewLifecycleOwner) {
-            when (it) {
-                is DevState.Loading -> {
-                }
 
-                is DevState.Success -> {
-                    adapter.updateList(it.data)
-                }
-
-                is DevState.Failure -> {
-                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-                    logError(it.message)
-                }
-
-                is DevState.Default -> {}
-                is DevState.Empty -> {}
-            }
-        }
     }
 }

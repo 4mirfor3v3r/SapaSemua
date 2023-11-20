@@ -20,10 +20,10 @@ class HomeFragment : DevFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun initUI() {
         binding.tvTitle.text = vm.user?.name
         if (vm.user?.avatar != null) {
-            val image: ByteArray = Base64.decode(vm.user?.avatar, Base64.DEFAULT)
+//            val image: ByteArray = Base64.decode(vm.user?.avatar, Base64.DEFAULT)
             Glide.with(this)
-                .asBitmap()
-                .load(image)
+//                .asBitmap()
+                .load(vm.user?.avatar)
                 .error(R.drawable.ic_profile)
                 .into(binding.ivProfile)
         }

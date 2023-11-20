@@ -54,10 +54,10 @@ class ModuleAdapter(private val onItemClick: (Module) -> Unit) :
                     3 -> "Advanced"
                     else -> "Beginner"
                 }
-                val image: ByteArray = Base64.decode(data.image, Base64.DEFAULT)
+//                val image: ByteArray = Base64.decode(data.image, Base64.DEFAULT)
                 Glide.with(binding.root.context)
-                    .asBitmap()
-                    .load(image)
+//                    .asBitmap()
+                    .load(data.image)
                     .into(ivModule)
 
                 binding.root.setOnClickListener { onItemClick(data) }

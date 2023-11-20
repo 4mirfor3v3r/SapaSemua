@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress NavigationFile -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,10 +10,14 @@
         android:id="@+id/homeFragment"
         android:name="amirlabs.sapasemua.ui.menu.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_translateFragment"
-            app:destination="@id/translateFragment" />
+            app:destination="@id/translateFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/forumFragment"
@@ -21,13 +26,25 @@
         tools:layout="@layout/fragment_forum">
         <action
             android:id="@+id/action_forumFragment_to_forumListFragment"
-            app:destination="@id/forumListFragment" />
+            app:destination="@id/forumListFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
         <action
             android:id="@+id/action_forumFragment_to_createDiscussionFragment"
-            app:destination="@id/createDiscussionFragment" />
+            app:destination="@id/createDiscussionFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
         <action
             android:id="@+id/action_forumFragment_to_forumDetailFragment"
-            app:destination="@id/forumDetailFragment" />
+            app:destination="@id/forumDetailFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/moduleFragment"
@@ -36,7 +53,28 @@
         tools:layout="@layout/fragment_module">
         <action
             android:id="@+id/action_moduleFragment_to_addModuleFragment"
-            app:destination="@id/addModuleFragment" />
+            app:destination="@id/addModuleFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_moduleFragment_to_listQuizResultFragment"
+            app:destination="@id/listQuizResultFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_moduleFragment_to_listModuleFragment"
+            app:destination="@id/listModuleFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_moduleFragment_to_quizResultFragment"
+            app:destination="@id/quizResultFragment" />
         <action
             android:id="@+id/action_moduleFragment_to_subModuleFragment"
             app:destination="@id/subModuleFragment" />
@@ -45,31 +83,47 @@
         android:id="@+id/profileFragment"
         android:name="amirlabs.sapasemua.ui.menu.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_profileDetailFragment"
-            app:destination="@id/profileDetailFragment" />
+            app:destination="@id/profileDetailFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
         <action
             android:id="@+id/action_profileFragment_to_aboutUsFragment"
-            app:destination="@id/aboutUsFragment" />
+            app:destination="@id/aboutUsFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addModuleFragment"
         android:name="amirlabs.sapasemua.ui.menu.module.add_module.AddModuleFragment"
         android:label="AddModuleFragment"
-        tools:layout="@layout/fragment_add_module" >
+        tools:layout="@layout/fragment_add_module">
         <action
             android:id="@+id/action_addModuleFragment_to_listQuizFragment"
-            app:destination="@id/listQuizFragment" />
+            app:destination="@id/listQuizFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/forumListFragment"
         android:name="amirlabs.sapasemua.ui.menu.forum.list.ForumListFragment"
         android:label="ForumListFragment"
-        tools:layout="@layout/fragment_forum_list" >
+        tools:layout="@layout/fragment_forum_list">
         <action
             android:id="@+id/action_forumListFragment_to_forumDetailFragment"
-            app:destination="@id/forumDetailFragment" />
+            app:destination="@id/forumDetailFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createDiscussionFragment"
@@ -78,63 +132,79 @@
         tools:layout="@layout/fragment_create_discussion" />
     <fragment
         android:id="@+id/subModuleFragment"
-        tools:layout="@layout/fragment_sub_module"
         android:name="amirlabs.sapasemua.ui.menu.module.submodule.SubModuleFragment"
-        android:label="SubModuleFragment" >
+        android:label="SubModuleFragment"
+        tools:layout="@layout/fragment_sub_module">
         <argument
             android:name="moduleId"
             app:argType="string"
             app:nullable="true" />
         <action
             android:id="@+id/action_subModuleFragment_to_lessonFragment"
-            app:destination="@id/lessonFragment" />
+            app:destination="@id/lessonFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
         <action
             android:id="@+id/action_subModuleFragment_to_quizFragment"
-            app:destination="@id/quizFragment" />
+            app:destination="@id/quizFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addQuizFragment"
-        tools:layout="@layout/fragment_add_quiz"
         android:name="amirlabs.sapasemua.ui.menu.module.add_quiz.AddQuizFragment"
-        android:label="AddQuizFragment" >
+        android:label="AddQuizFragment"
+        tools:layout="@layout/fragment_add_quiz">
         <argument
             android:name="moduleId"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/translateFragment"
-        tools:layout="@layout/fragment_translate"
         android:name="amirlabs.sapasemua.ui.menu.translate.TranslateFragment"
-        android:label="TranslateFragment" />
+        android:label="TranslateFragment"
+        tools:layout="@layout/fragment_translate" />
     <fragment
         android:id="@+id/lessonFragment"
-        tools:layout="@layout/fragment_lesson"
         android:name="amirlabs.sapasemua.ui.menu.module.lesson.LessonFragment"
-        android:label="LessonFragment" >
+        android:label="LessonFragment"
+        tools:layout="@layout/fragment_lesson">
         <argument
             android:name="lessonId"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/listQuizFragment"
-        tools:layout="@layout/fragment_list_quiz"
         android:name="amirlabs.sapasemua.ui.menu.module.list_quiz.ListQuizFragment"
-        android:label="ListQuizFragment" >
+        android:label="ListQuizFragment"
+        tools:layout="@layout/fragment_list_quiz">
         <action
             android:id="@+id/action_listQuizFragment_to_addQuizFragment"
-            app:destination="@id/addQuizFragment" />
+            app:destination="@id/addQuizFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
         <argument
             android:name="moduleId"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/quizFragment"
-        tools:layout="@layout/fragment_quiz"
         android:name="amirlabs.sapasemua.ui.menu.module.quiz.QuizFragment"
-        android:label="QuizFragment" >
+        android:label="QuizFragment"
+        tools:layout="@layout/fragment_quiz">
         <action
             android:id="@+id/action_quizFragment_to_quizResultFragment"
             app:destination="@id/quizResultFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"
             app:popUpTo="@id/quizFragment"
             app:popUpToInclusive="true" />
         <argument
@@ -143,34 +213,60 @@
     </fragment>
     <fragment
         android:id="@+id/quizResultFragment"
-        tools:layout="@layout/fragment_quiz_result"
         android:name="amirlabs.sapasemua.ui.menu.module.quiz.QuizResultFragment"
-        android:label="QuizResultFragment" >
+        android:label="QuizResultFragment"
+        tools:layout="@layout/fragment_quiz_result">
         <argument
             android:name="resultId"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/profileDetailFragment"
-        tools:layout="@layout/fragment_profile_detail"
         android:name="amirlabs.sapasemua.ui.menu.profile.ProfileDetailFragment"
-        android:label="ProfileDetailFragment" >
+        android:label="ProfileDetailFragment"
+        tools:layout="@layout/fragment_profile_detail">
         <argument
             android:name="userId"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/aboutUsFragment"
-        tools:layout="@layout/fragment_about_us"
         android:name="amirlabs.sapasemua.ui.menu.profile.AboutUsFragment"
-        android:label="AboutUsFragment" />
+        android:label="AboutUsFragment"
+        tools:layout="@layout/fragment_about_us" />
     <fragment
         android:id="@+id/forumDetailFragment"
-        tools:layout="@layout/fragment_forum_detail"
         android:name="amirlabs.sapasemua.ui.menu.forum.detail.ForumDetailFragment"
-        android:label="ForumDetailFragment" >
+        android:label="ForumDetailFragment"
+        tools:layout="@layout/fragment_forum_detail">
         <argument
             android:name="forumId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/listModuleFragment"
+        android:name="amirlabs.sapasemua.ui.menu.module.ListModuleFragment"
+        tools:layout="@layout/fragment_list_module"
+        android:label="ListModuleFragment" >
+        <action
+            android:id="@+id/action_listModuleFragment_to_subModuleFragment"
+            app:destination="@id/subModuleFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/listQuizResultFragment"
+        tools:layout="@layout/fragment_list_quiz_result"
+        android:name="amirlabs.sapasemua.ui.menu.module.ListQuizResultFragment"
+        android:label="ListQuizResultFragment" >
+        <action
+            android:id="@+id/action_listQuizResultFragment_to_quizResultFragment"
+            app:destination="@id/quizResultFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
 </navigation>

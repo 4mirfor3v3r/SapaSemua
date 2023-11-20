@@ -16,6 +16,9 @@ class ProfileViewModel(private val repo: MainRepository)  : DevViewModel(){
 
     private val _profile = MutableLiveData<DevState<User>>(DevState.default())
     val profile: LiveData<DevState<User>> get() = _profile
+
+    private val _submitProfile = MutableLiveData<DevState<User>>(DevState.default())
+    val submitProfile: LiveData<DevState<User>> get() = _submitProfile
     private val user = prefs().getObject("user", User::class.java)
 
     fun getProfileDetail(userId: String){
@@ -25,27 +28,29 @@ class ProfileViewModel(private val repo: MainRepository)  : DevViewModel(){
             .subscribe({
                 if (it.data == null)
                     _profile.value = DevState.fail(null, it.message ?: "Something went wrong")
-                else
+                else {
+                    prefs().setObject("user", it.data)
                     _profile.value = DevState.success(it.data)
+                }
             },{
                 _profile.value = DevState.fail(null, it.localizedMessage)
             }).let(disposable::add)
     }
 
     fun updateProfile(userId:String, updatedField: Map<String?, Any>, avatar: File?){
-        _profile.value = DevState.loading()
+        _submitProfile.value = DevState.loading()
         val body = updatedField.plus("id" to userId)
         repo.updateProfile(body, avatar)
             .compose(singleScheduler())
             .subscribe({
                 if (it.data == null)
-                    _profile.value = DevState.fail(null, it.message ?: "Something went wrong")
+                    _submitProfile.value = DevState.fail(null, it.message ?: "Something went wrong")
                 else{
-                    _profile.value = DevState.success(it.data)
-                    prefs().setObject("user", it.data)
+                    _submitProfile.value = DevState.success(it.data)
+//                    prefs().setObject("user", it.data)
                 }
             },{
-                _profile.value = DevState.fail(null, it.localizedMessage)
+                _submitProfile.value = DevState.fail(null, it.localizedMessage)
             }).let(disposable::add)
     }
     override fun onCleared() {

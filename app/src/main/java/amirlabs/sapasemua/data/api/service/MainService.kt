@@ -60,6 +60,9 @@ interface MainService {
     @GET("module/quiz/result/{id}")
     fun getQuizResult(@Path("id") resultId: String): Single<BaseResponse<QuizResult>>
 
+    @GET("module/quiz/{id}/result")
+    fun getAllQuizResult(@Path("id") userId: String): Single<BaseResponse<List<QuizResult>>>
+
     @POST("forum/create")
     fun createForum(@Body body: Map<String, Any>): Single<BaseResponse<Forum>>
 

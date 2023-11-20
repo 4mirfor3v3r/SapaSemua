@@ -45,17 +45,13 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
         if (!checkPermissions()) {
             requestPermissions()
         }
-        val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
         pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                context?.contentResolver?.takePersistableUriPermission(uri, flag)
                 lifecycleScope.launch {
                     val f = File(requireContext().cacheDir, System.currentTimeMillis().toString())
                     withContext(Dispatchers.IO){
-                        val bitmap = getPickedImage(uri)
-                        val stream = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                         f.createNewFile()
+                        val inputStream = activity?.contentResolver?.openInputStream(uri)
                         var fos: FileOutputStream? = null
                         try {
                             fos = FileOutputStream(f)
@@ -63,19 +59,22 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
                             e.printStackTrace()
                         }
                         try {
-                            fos?.write(stream.toByteArray())
+                            fos?.write(inputStream?.readBytes())
                             fos?.flush()
                             fos?.close()
+                            inputStream?.close()
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
                         image = f
                         withContext(Dispatchers.Main){
+                            Glide.with(binding.root.context)
+                                .load(image)
+                                .into(binding.ivAvatar)
                             binding.btnEditProfile.isEnabled = isVerified()
                         }
                     }
                 }
-                binding.ivAvatar.setImageURI(uri)
             }
         }
     }
@@ -134,12 +133,33 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
                     binding.etBio.editText?.setText(it.data.bio)
 
                     if (it.data.avatar != null) {
-                        val image: ByteArray = Base64.decode(it.data.avatar, Base64.DEFAULT)
                         Glide.with(binding.root.context)
-                            .asBitmap()
-                            .load(image)
+                            .load(it.data.avatar)
                             .into(binding.ivAvatar)
                     }
+                }
+                is DevState.Failure -> {
+//                    binding.progressBar.visibility = View.GONE
+//                    binding.tvName.text = it.message
+                }
+                else ->{}
+            }
+        }
+        vm.profile.observe(viewLifecycleOwner){
+            when(it){
+                is DevState.Loading -> {
+//                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is DevState.Success -> {
+                    updatedField = emptyMap()
+                    image = null
+                    binding.btnEditProfile.isEnabled = isVerified()
+                    binding.etName.editText?.setText(it.data.name)
+                    binding.etEmail.editText?.setText(it.data.email)
+                    binding.etPhone.editText?.setText(it.data.role)
+                    binding.etDomicile.editText?.setText(it.data.domicile)
+                    binding.etBio.editText?.setText(it.data.bio)
+                    vm.getProfileDetail(args.userId)
                 }
                 is DevState.Failure -> {
 //                    binding.progressBar.visibility = View.GONE

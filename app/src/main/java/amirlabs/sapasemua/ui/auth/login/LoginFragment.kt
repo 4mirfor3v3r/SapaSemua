@@ -29,11 +29,10 @@ class LoginFragment : DevFragment<FragmentLoginBinding>(R.layout.fragment_login)
     }
 
     override fun initUI() {
+        binding.btnLogin.isEnabled = isVerified()
     }
 
     override fun initAction() {
-        verifyEmail()
-        verifyNewPassword("")
         binding.etEmail.editText?.doAfterTextChanged {
             verifyEmail()
             binding.btnLogin.isEnabled = isVerified()
@@ -109,8 +108,8 @@ class LoginFragment : DevFragment<FragmentLoginBinding>(R.layout.fragment_login)
     }
 
     private fun isVerified(): Boolean {
-        return binding.etEmail.error == null &&
-                binding.etPassword.error == null
+        return binding.etEmail.error == null && binding.etEmail.editText?.text?.isNotEmpty() == true &&
+                binding.etPassword.error == null && binding.etPassword.editText?.text?.isNotEmpty() == true
     }
 
     override fun onMessageError(message: String) {

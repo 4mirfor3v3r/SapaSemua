@@ -48,10 +48,10 @@ class ForumDetailAdapter(private val onItemClick: (Comment) -> Unit) : RecyclerV
                 tvForumCreatorName.text = "${data.creator?.name}-(${data.creator?.role})"
                 tvForumDesc.text = data.title
 
-                val image: ByteArray = Base64.decode(data.creator?.avatar ?:"", Base64.DEFAULT)
+//                val image: ByteArray = Base64.decode(data.creator?.avatar ?:"", Base64.DEFAULT)
                 Glide.with(binding.root.context)
-                    .asBitmap()
-                    .load(image)
+//                    .asBitmap()
+                    .load(data.creator?.avatar)
                     .error(R.drawable.ic_profile)
                     .into(ivForumAvatar)
 

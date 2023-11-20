@@ -77,10 +77,10 @@ class ForumListAdapter(private val onItemClick: (Forum?) -> Unit, private val on
                 tvForumTitle.text = data?.title
                 tvForumDesc.text = data?.description
 
-                val image: ByteArray = Base64.decode(data?.creator?.avatar ?:"", Base64.DEFAULT)
+//                val image: ByteArray = Base64.decode(data?.creator?.avatar ?:"", Base64.DEFAULT)
                 Glide.with(binding.root.context)
-                    .asBitmap()
-                    .load(image)
+//                    .asBitmap()
+                    .load(data?.creator?.avatar)
                     .into(ivForumAvatar)
 
                 binding.root.setOnClickListener { onItemClick(data) }

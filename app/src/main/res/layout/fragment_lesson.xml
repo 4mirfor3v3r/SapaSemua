@@ -9,11 +9,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/toolbar"
-            android:translationZ="2dp"
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
             android:paddingHorizontal="16dp"
+            android:translationZ="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -40,13 +40,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <VideoView
+        <androidx.media3.ui.PlayerView
             android:id="@+id/videoLesson"
             android:layout_width="match_parent"
-            android:translationZ="1dp"
             android:layout_height="0dp"
+            android:translationZ="1dp"
             app:layout_constraintBottom_toTopOf="@id/llAction"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:shutter_background_color="@android:color/transparent"
+            app:use_controller="false"
             tools:background="@tools:sample/backgrounds/scenic" />
 
         <TextView
@@ -54,8 +56,8 @@
             style="@style/Poppins.600.Black.18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Huruf A"
             android:layout_marginTop="12dp"
+            android:text="Huruf A"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -64,20 +66,20 @@
             android:id="@+id/ivPlay"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:visibility="gone"
             android:src="@drawable/ic_play_lesson"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/videoLesson"
             app:layout_constraintEnd_toEndOf="@id/videoLesson"
             app:layout_constraintStart_toStartOf="@id/videoLesson"
             app:layout_constraintTop_toTopOf="@id/videoLesson" />
 
         <LinearLayout
-            android:translationZ="2dp"
             android:id="@+id/llAction"
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:paddingVertical="32dp"
+            android:translationZ="2dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
 

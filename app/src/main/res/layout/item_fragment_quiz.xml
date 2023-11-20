@@ -52,8 +52,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <VideoView
+                    <androidx.media3.ui.PlayerView
                         android:id="@+id/videoQuiz"
+                        app:shutter_background_color="@android:color/transparent"
+                        app:use_controller="false"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

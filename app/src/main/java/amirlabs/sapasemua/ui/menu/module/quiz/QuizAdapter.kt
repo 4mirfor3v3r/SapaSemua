@@ -5,12 +5,23 @@ import amirlabs.sapasemua.data.model.Quiz
 import amirlabs.sapasemua.databinding.ItemFragmentQuizBinding
 import amirlabs.sapasemua.ui.menu.module.list_quiz.ListQuizAdapter
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.OptIn
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -27,7 +38,7 @@ class QuizAdapter(
     private val onOption4Clicked: (Quiz, Int) -> Unit
 ) : RecyclerView.Adapter<QuizAdapter.ViewHolder>() {
     val listData = ArrayList<Quiz>()
-    private val listVideo = ArrayList<File>()
+//    private val listVideo = ArrayList<File>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             ItemFragmentQuizBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -42,19 +53,19 @@ class QuizAdapter(
 
     override fun onViewAttachedToWindow(holder: ViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.binding.videoQuiz.start()
+        holder.play()
     }
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        holder.binding.videoQuiz.pause()
+        holder.pause()
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(list: List<Quiz>) {
-        listVideo.clear()
-        listVideo.addAll(list.map { base64ToVideo(it.attachment ?: "", it.id ?: "") })
+//        listVideo.clear()
+//        listVideo.addAll(list.map { base64ToVideo(it.attachment ?: "", it.id ?: "") })
 
-        list.forEach { it.attachment = null }
+//        list.forEach { it.attachment = null }
         listData.clear()
         listData.addAll(list)
         notifyDataSetChanged()
@@ -75,6 +86,9 @@ class QuizAdapter(
 
     inner class ViewHolder(val binding: ItemFragmentQuizBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private var player: ExoPlayer?= null
+        private val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
+
         fun bind(data: Quiz, position: Int) {
             with(binding) {
                 tvQuestion.text = data.question
@@ -82,17 +96,6 @@ class QuizAdapter(
                 tvOption2.text = data.option2
                 tvOption3.text = data.option3
                 tvOption4.text = data.option4
-                videoQuiz.setOnPreparedListener {
-                    val videoRatio = it.videoWidth / it.videoHeight.toFloat()
-                    val screenRatio = videoQuiz.width / videoQuiz.height.toFloat()
-                    val scaleX = videoRatio / screenRatio
-                    if (scaleX >= 1f) {
-                        videoQuiz.scaleX = scaleX
-                    } else {
-                        videoQuiz.scaleY = 1f / scaleX
-                    }
-                    it.isLooping = true
-                }
                 binding.root.setOnClickListener { onItemClick(data) }
                 binding.option1.setOnClickListener {
                     onOption1Clicked(data, position)
@@ -218,9 +221,55 @@ class QuizAdapter(
                         )
                     )
                 }
-                videoQuiz.setVideoURI(listVideo[position].toUri())
-                videoQuiz.start()
+                initPlayer(data.attachment ?: "")
+//                videoQuiz.setVideoURI(listVideo[position].toUri())
+//                videoQuiz.start()
             }
+        }
+
+        @OptIn(UnstableApi::class) private fun initPlayer(mediaUrl: String){
+            player = ExoPlayer.Builder(binding.root.context)
+                .build()
+                .apply {
+                    setMediaSource(getProgressiveMediaSource(mediaUrl))
+                    prepare()
+                    addListener(playerListener)
+                }
+        }
+        @OptIn(UnstableApi::class) private fun getProgressiveMediaSource(mediaUrl: String): MediaSource {
+            // Create a Regular media source pointing to a playlist uri.
+            return ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
+        }
+        val playerListener = object: Player.Listener {
+            @OptIn(UnstableApi::class) override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+                when(playbackState){
+                    Player.STATE_ENDED -> restartPlayer()
+                    Player.STATE_READY -> {
+                        binding.videoQuiz.player = player
+                        binding.videoQuiz.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                        play()
+                    }
+                }
+            }
+        }
+        fun releasePlayer(){
+            player?.apply {
+                playWhenReady = false
+                release()
+            }
+            player = null
+        }
+        fun pause(){
+            player?.playWhenReady = false
+        }
+         fun play(){
+            player?.playWhenReady = true
+        }
+         fun restartPlayer(){
+            player?.seekTo(0)
+            player?.playWhenReady = true
         }
     }
 

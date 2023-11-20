@@ -5,7 +5,6 @@ import amirlabs.sapasemua.base.DevFragment
 import amirlabs.sapasemua.databinding.FragmentSubModuleBinding
 import amirlabs.sapasemua.utils.DevState
 import amirlabs.sapasemua.utils.getViewModel
-import android.util.Base64
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -48,18 +47,23 @@ class SubModuleFragment : DevFragment<FragmentSubModuleBinding>(R.layout.fragmen
         vm.modules.observe(viewLifecycleOwner){
             when(it){
                 is DevState.Loading -> {
+                    binding.msvSubmodule.showLoadingLayout()
                 }
                 is DevState.Failure -> {
+                    binding.msvSubmodule.showErrorLayout()
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
                 is DevState.Success -> {
-                    val image: ByteArray = Base64.decode(it.data.image, Base64.DEFAULT)
-                    Glide.with(requireContext()).load(image).into(binding.ivModule)
+                    binding.msvSubmodule.showDefaultLayout()
+//                    val image: ByteArray = Base64.decode(it.data.image, Base64.DEFAULT)
+                    Glide.with(requireContext()).load(it.data.image).into(binding.ivModule)
                     binding.tvTitle.text = it.data.name
                     binding.tvDescription.text = it.data.description
                     adapter.updateList(it.data.submodule)
                 }
-                is DevState.Default -> {}
+                is DevState.Default -> {
+                    binding.msvSubmodule.showDefaultLayout()
+                }
                 is DevState.Empty -> {}
             }
         }

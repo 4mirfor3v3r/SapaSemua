@@ -29,6 +29,7 @@ interface MainRepository {
     fun getQuizQuestion(moduleId: String): Single<BaseResponse<List<Quiz>>>
     fun submitQuiz(body:Map<String, Any>): Single<BaseResponse<QuizResult>>
     fun getQuizResult(resultId: String): Single<BaseResponse<QuizResult>>
+    fun getAllQuizResult(userId:String): Single<BaseResponse<List<QuizResult>>>
 
     fun createForum(body: Map<String, Any>): Single<BaseResponse<Forum>>
     fun getForum(page:Int, pageSize:Int): Single<BaseResponse<List<Forum>>>

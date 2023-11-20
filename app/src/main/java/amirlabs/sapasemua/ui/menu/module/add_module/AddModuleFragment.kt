@@ -25,6 +25,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -66,14 +67,12 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
         val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
         pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                context?.contentResolver?.takePersistableUriPermission(uri, flag)
+//                context?.contentResolver?.takePersistableUriPermission(uri, flag)
                 lifecycleScope.launch {
                     val f = File(requireContext().cacheDir, System.currentTimeMillis().toString())
                     withContext(Dispatchers.IO){
-                        val bitmap = getPickedImage(uri)
-                        val stream = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                         f.createNewFile()
+                        val inputStream = activity?.contentResolver?.openInputStream(uri)
                         var fos: FileOutputStream? = null
                         try {
                             fos = FileOutputStream(f)
@@ -81,22 +80,27 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
                             e.printStackTrace()
                         }
                         try {
-                            fos?.write(stream.toByteArray())
+                            fos?.write(inputStream?.readBytes())
                             fos?.flush()
                             fos?.close()
+                            inputStream?.close()
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
                         image = f
+                        withContext(Dispatchers.Main){
+                            Glide.with(binding.root.context)
+                                .load(image)
+                                .into(binding.ivModule)
+                        }
                     }
                 }
-                binding.ivModule.setImageURI(uri)
                 binding.btnSubmit.isEnabled = isVerified()
             }
         }
         pickVideo = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                context?.contentResolver?.takePersistableUriPermission(uri, flag)
+//                context?.contentResolver?.takePersistableUriPermission(uri, flag)
                 lifecycleScope.launch {
                     val f = File(requireContext().cacheDir, System.currentTimeMillis().toString())
                     withContext(Dispatchers.IO){

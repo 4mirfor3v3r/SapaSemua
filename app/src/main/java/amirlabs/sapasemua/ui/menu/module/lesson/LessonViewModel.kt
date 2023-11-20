@@ -19,14 +19,14 @@ class LessonViewModel(private val repo: MainRepository) : DevViewModel(){
     val lesson: MutableLiveData<DevState<SubModule>>
         get() = _lesson
     private val _video = MutableLiveData<File>()
-    val video: LiveData<File>
-        get() = _video
+//    val video: LiveData<File>
+//        get() = _video
     fun getLessonById(lessonId: String){
         repo.getOneSubModule(lessonId)
             .subscribe({
                 if (it.data != null) {
-                    _video.postValue(base64ToVideo(it.data.video?:"", lessonId))
-                    it.data.video = null
+//                    _video.postValue(base64ToVideo(it.data.video?:"", lessonId))
+//                    it.data.video = null
                     _lesson.postValue(DevState.success(it.data))
                 }
                 else _lesson.value = DevState.fail(null, it.message)
