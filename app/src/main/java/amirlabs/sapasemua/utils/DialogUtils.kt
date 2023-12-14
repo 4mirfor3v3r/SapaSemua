@@ -23,17 +23,25 @@ object DialogUtils {
     fun showAlertDialog(
         context: Context,
         title: String,
-        positiveAction: Pair<String, (() -> Unit)?>,
+        positiveActionText: String = "OK",
+        negativeActionText: String = "Batalkan",
+        positiveAction: (() -> Unit)? = null,
+        negativeAction: (() -> Unit)? = null,
         autoDismiss: Boolean = false
     ) {
         val view: LayoutAlertDialogBinding =
             DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.layout_alert_dialog, null as ViewGroup?, false)
 
         view.tvTitle.text = title
-        view.btnSubmit.text = positiveAction.first
-        view.btnSubmit.setOnClickListener {
+        view.btnPositive.text = positiveActionText
+        view.btnPositive.setOnClickListener {
             dialog.dismiss()
-            positiveAction.second?.invoke()
+            positiveAction?.invoke()
+        }
+        view.btnNegative.text = negativeActionText
+        view.btnNegative.setOnClickListener {
+            dialog.dismiss()
+            negativeAction?.invoke()
         }
         builder = AlertDialog.Builder(context)
         builder.setView(view.root)
@@ -44,7 +52,7 @@ object DialogUtils {
 
 
     @SuppressLint("SetTextI18n")
-    fun showAddScheduleDialog(
+    fun showAddModuleDialog(
         context: Context,
         saveButtonClicked: (String?, Int?) -> Unit,
         autoDismiss: Boolean = false

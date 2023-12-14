@@ -19,7 +19,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
-class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: MainService, private val socketApi: WebSocketService) :
+class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: MainService) :
     MainRepository {
     override fun login(form: Map<String, Any>): Single<BaseResponse<User>> {
         return mainApi.login(form)
@@ -60,6 +60,22 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
     override fun getOneSubModule(submoduleId: String): Single<BaseResponse<SubModule>> {
         return mainApi.getOneSubModule(submoduleId)
     }
+
+    override fun editSubmodule(submoduleId: String, body: Map<String, Any>, video: File?): Single<BaseResponse<SubModule>> {
+        val filePart: MultipartBody.Part? = video?.asRequestBody("*/*".toMediaTypeOrNull())?.let {
+            MultipartBody.Part.createFormData(
+                "video", video.name, it
+            )
+        }
+        val sentBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+        if (body.containsKey("title")) sentBody.addFormDataPart("name", body["title"].toString())
+        if (body.containsKey("duration")) sentBody.addFormDataPart("duration", body["duration"].toString())
+        if (filePart != null){
+            sentBody.addPart(filePart)
+        }
+        return mainApi.editSubmodule(submoduleId, sentBody.build())
+    }
+
     override fun createModule(
         id: String?, module: Map<String, Any>, image: File, submodule:List<Map<String, Any>>, video:List<File>
     ): Single<BaseResponse<Module>> {
@@ -81,6 +97,37 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
             body.addPart(videoPart)
         }
         return mainApi.createModule(body.build())
+    }
+
+//    override fun editModule(
+//        moduleId: String,
+//        module: Map<String, Any>,
+//        image: File,
+//        submodule: List<Map<String, Any>>,
+//        video: List<File>?
+//    ): Single<BaseResponse<Module>> {
+//        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
+//            "image", image?.name, image.asRequestBody("image/*".toMediaTypeOrNull())
+//        )
+//        val body = MultipartBody.Builder().setType(MultipartBody.FORM)
+//            .addFormDataPart("name", module["name"].toString())
+//            .addFormDataPart("level", module["level"].toString())
+//            .addFormDataPart("description", module["description"].toString())
+//            .addFormDataPart("creator", id ?: "")
+//            .addPart(filePart)
+//        for (i in 0..submodule.lastIndex){
+//            body.addFormDataPart("submodule[${i}][name]", submodule[i]["name"].toString())
+//            body.addFormDataPart("submodule[${i}][duration]", submodule[i]["duration"].toString())
+//            val videoPart: MultipartBody.Part = MultipartBody.Part.createFormData(
+//                "modules", image.name, video[i].asRequestBody("*/*".toMediaTypeOrNull())
+//            )
+//            body.addPart(videoPart)
+//        }
+//    }
+
+
+    override fun deleteModule(moduleId: String): Single<BaseResponse<Module>> {
+        return mainApi.deleteModule(moduleId)
     }
 
     override fun createQuiz(
@@ -143,16 +190,16 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
         return mainApi.addComment(forumId, body)
     }
 
-    override fun sendCoordinates(body: Subscribe) {
-        socketApi.sendCoordinates(body)
-    }
-
-    override fun getTranslateResult(): Flowable<String> {
-        return socketApi.observeCoordinates()
-    }
-
-    override fun observeSocketConnection(): Flowable<WebSocket.Event> {
-        return socketApi.observeWebSocketEvent()
-    }
+//    override fun sendCoordinates(body: Subscribe) {
+//        socketApi.sendCoordinates(body)
+//    }
+//
+//    override fun getTranslateResult(): Flowable<String> {
+//        return socketApi.observeCoordinates()
+//    }
+//
+//    override fun observeSocketConnection(): Flowable<WebSocket.Event> {
+//        return socketApi.observeWebSocketEvent()
+//    }
 
 }

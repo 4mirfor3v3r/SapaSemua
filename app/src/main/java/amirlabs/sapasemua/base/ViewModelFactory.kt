@@ -26,8 +26,7 @@ import androidx.lifecycle.ViewModelProvider
 class ViewModelFactory : ViewModelProvider.Factory {
     private val db = AppDatabase.getAppDatabase()
     private val api = NetworkConfig.apiService
-    private val socketService = NetworkConfig.socketService
-    private val mainRepo = MainRepositoryImpl(db.videoDao(), api, socketService)
+    private val mainRepo = MainRepositoryImpl(db.videoDao(), api)
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {

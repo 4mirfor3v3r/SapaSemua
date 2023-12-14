@@ -11,6 +11,7 @@ import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -39,8 +40,14 @@ interface MainService {
     @GET("module/lesson/{id}")
     fun getOneSubModule(@Path("id") lessonId:String): Single<BaseResponse<SubModule>>
 
+    @DELETE("module/{id}")
+    fun deleteModule(@Path("id") moduleId:String): Single<BaseResponse<Module>>
+
     @POST("module/create")
     fun createModule(@Body body: MultipartBody): Single<BaseResponse<Module>>
+
+    @POST("module/submodule/{submodule_id}/edit")
+    fun editSubmodule(@Path("submodule_id") submoduleId:String, @Body body: MultipartBody): Single<BaseResponse<SubModule>>
 
     @POST("module/quiz/create")
     fun createQuiz(@Body body: MultipartBody): Single<BaseResponse<Quiz>>

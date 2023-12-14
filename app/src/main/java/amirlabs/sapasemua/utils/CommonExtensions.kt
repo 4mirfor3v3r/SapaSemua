@@ -2,6 +2,7 @@ package amirlabs.sapasemua.utils
 
 import amirlabs.sapasemua.base.ViewModelFactory
 import amirlabs.sapasemua.data.local.DevPreferenceManager
+import amirlabs.sapasemua.data.model.User
 import android.content.Context
 import android.text.SpannableString
 import android.text.style.BulletSpan
@@ -17,6 +18,10 @@ inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(): Lazy<T> {
 
 fun prefs(context:Context?=null): DevPreferenceManager {
     return DevPreferenceManager(context?:ApplicationContext.get(), "amirlabs.sapasemua.prefs", Gson())
+}
+
+fun isAdmin(): Boolean {
+    return prefs().getObject("user", User::class.java)?.role == "PENGAJAR"
 }
 
 fun logDebug(vararg message: String?) {

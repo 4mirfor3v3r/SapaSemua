@@ -1,6 +1,7 @@
 package amirlabs.sapasemua.ui.menu.translate
 
 import amirlabs.sapasemua.base.DevViewModel
+import amirlabs.sapasemua.data.api.NetworkConfig
 import amirlabs.sapasemua.data.model.Subscribe
 import amirlabs.sapasemua.data.repo.MainRepository
 import amirlabs.sapasemua.utils.logError
@@ -37,9 +38,7 @@ class TranslateViewModel(private val repo: MainRepository) : DevViewModel(){
     val eventListener: LiveData<WebSocket.Event>
         get() = _eventListener
 
-    private val _resultListener = MutableLiveData<String>()
-    val resultListener: LiveData<String>
-        get() = _resultListener
+    private var socketService = NetworkConfig.socketService
 
     fun setDelegate(delegate: Int) {
         _delegate = delegate
@@ -60,21 +59,21 @@ class TranslateViewModel(private val repo: MainRepository) : DevViewModel(){
     }
 
     fun listenEvent() {
-        repo.observeSocketConnection()
+        socketService.observeWebSocketEvent()
             .subscribe {
                 _eventListener.postValue(it)
             }.let(disposable::add)
     }
 
     fun sendCoordinates(body:Subscribe){
-        repo.sendCoordinates(body)
+        socketService.sendCoordinates(body)
     }
 
-    fun listenResultText(){
-        repo.getTranslateResult()
+    fun refreshConnection(){
+        socketService = NetworkConfig.socketService
+        socketService.observeWebSocketEvent()
             .subscribe {
-                logError(it)
-                _resultListener.postValue(it)
+                _eventListener.postValue(it)
             }.let(disposable::add)
     }
 

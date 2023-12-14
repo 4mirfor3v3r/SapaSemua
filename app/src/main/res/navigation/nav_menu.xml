@@ -153,6 +153,13 @@
             app:exitAnim="@anim/anim_slide_out_left"
             app:popEnterAnim="@anim/anim_slide_in_left"
             app:popExitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_subModuleFragment_to_editSubmoduleFragment"
+            app:destination="@id/editSubmoduleFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/addQuizFragment"
@@ -269,4 +276,20 @@
             app:popEnterAnim="@anim/anim_slide_in_left"
             app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/editSubmoduleFragment"
+        tools:layout="@layout/fragment_edit_submodule"
+        android:name="amirlabs.sapasemua.ui.menu.module.submodule.EditSubmoduleFragment"
+        android:label="EditSubmoduleFragment" >
+        <argument
+            android:name="submoduleId"
+            app:argType="string" />
+        <argument
+            android:name="editAccess"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <argument
+        android:name="submoduleId"
+        app:argType="string" />
 </navigation>

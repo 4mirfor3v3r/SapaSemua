@@ -21,6 +21,10 @@ class ModuleViewModel(private val repo: MainRepository)  : DevViewModel(){
 
     private val _quizResults = MutableLiveData<DevState<List<QuizResult>>>()
     val quizResults: LiveData<DevState<List<QuizResult>>> get() = _quizResults
+
+    private val _deleteModule = MutableLiveData<DevState<Module>>()
+    val deleteModule: LiveData<DevState<Module>> get() = _deleteModule
+
     fun getAllModule(){
         _modules.value = DevState.loading()
         repo.getAllModule()
@@ -58,6 +62,29 @@ class ModuleViewModel(private val repo: MainRepository)  : DevViewModel(){
                 } else {
                     val errorMessage = it.localizedMessage
                     _quizResults.value = DevState.fail(null, errorMessage)
+                }
+            }).let(disposable::add)
+    }
+
+    fun deleteModule(moduleId:String){
+        _deleteModule.value = DevState.loading()
+        repo.deleteModule(moduleId)
+            .delay(1000L, TimeUnit.MILLISECONDS)
+            .compose(singleScheduler())
+            .subscribe({
+                if (it.data != null) {
+                    _deleteModule.postValue(DevState.success(it.data))
+                }
+                else _deleteModule.value = DevState.fail(null, it.message)
+            },{
+                if (it is HttpException) {
+                    val errorBody = it.response()?.errorBody()?.string()
+                    if (errorBody != null) {
+                        _modules.value = DevState.Failure(null, errorBody)
+                    }
+                } else {
+                    val errorMessage = it.localizedMessage
+                    _modules.value = DevState.fail(null, errorMessage)
                 }
             }).let(disposable::add)
     }

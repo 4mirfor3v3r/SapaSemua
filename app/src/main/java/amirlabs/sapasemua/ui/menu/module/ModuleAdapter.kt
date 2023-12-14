@@ -2,22 +2,21 @@ package amirlabs.sapasemua.ui.menu.module
 
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.data.model.Module
+import amirlabs.sapasemua.data.model.User
 import amirlabs.sapasemua.databinding.ItemModuleBinding
+import amirlabs.sapasemua.utils.isAdmin
+import amirlabs.sapasemua.utils.prefs
 import android.annotation.SuppressLint
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import java.nio.charset.StandardCharsets
 
-
-
-
-class ModuleAdapter(private val onItemClick: (Module) -> Unit) :
+class ModuleAdapter(private val onItemClick: (Module) -> Unit, private val onDeleteClick: (Module) -> Unit) :
     RecyclerView.Adapter<ModuleAdapter.ViewHolder>() {
     val listData = ArrayList<Module>()
+    private val user = prefs().getObject("user", User::class.java)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModuleAdapter.ViewHolder {
         val view: ItemModuleBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
@@ -29,7 +28,7 @@ class ModuleAdapter(private val onItemClick: (Module) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ModuleAdapter.ViewHolder, position: Int) {
-        holder.bind(listData[position], position)
+        holder.bind(listData[position])
     }
 
     override fun getItemCount() = listData.size
@@ -41,10 +40,18 @@ class ModuleAdapter(private val onItemClick: (Module) -> Unit) :
         notifyDataSetChanged()
     }
 
+    fun deleteItem(moduleId:String) {
+        val index = listData.indexOfFirst { it.id == moduleId }
+        if (index != -1) {
+            listData.removeAt(index)
+            notifyItemRemoved(index)
+        }
+    }
+
     inner class ViewHolder(private val binding: ItemModuleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(data: Module, position: Int) {
+        fun bind(data: Module) {
             with(binding) {
                 tvModuleTitle.text = data.name
                 tvModuleDesc.text = data.description
@@ -54,12 +61,13 @@ class ModuleAdapter(private val onItemClick: (Module) -> Unit) :
                     3 -> "Advanced"
                     else -> "Beginner"
                 }
-//                val image: ByteArray = Base64.decode(data.image, Base64.DEFAULT)
                 Glide.with(binding.root.context)
-//                    .asBitmap()
                     .load(data.image)
                     .into(ivModule)
 
+                binding.ivDelete.visibility = if (user?.role == "PELAJAR" && user.id == data.id) android.view.View.VISIBLE else android.view.View.GONE
+
+                binding.ivDelete.setOnClickListener { onDeleteClick(data) }
                 binding.root.setOnClickListener { onItemClick(data) }
             }
         }

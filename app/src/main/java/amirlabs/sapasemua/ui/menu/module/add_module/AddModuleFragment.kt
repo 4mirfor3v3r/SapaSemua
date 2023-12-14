@@ -48,7 +48,7 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
     private var level = 1
     override fun initData() {
         adapter = AddModuleAdapter({ it, position ->
-            DialogUtils.showAddScheduleDialog(requireContext(),
+            DialogUtils.showAddModuleDialog(requireContext(),
                 saveButtonClicked = { title, duration ->
                     if(title?.isNotEmpty() == true && duration != -1){
                         it.name = title
@@ -64,10 +64,8 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
             requestPermissions()
         }
 
-        val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
         pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-//                context?.contentResolver?.takePersistableUriPermission(uri, flag)
                 lifecycleScope.launch {
                     val f = File(requireContext().cacheDir, System.currentTimeMillis().toString())
                     withContext(Dispatchers.IO){
@@ -100,7 +98,6 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
         }
         pickVideo = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-//                context?.contentResolver?.takePersistableUriPermission(uri, flag)
                 lifecycleScope.launch {
                     val f = File(requireContext().cacheDir, System.currentTimeMillis().toString())
                     withContext(Dispatchers.IO){

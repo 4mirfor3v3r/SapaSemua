@@ -2,7 +2,9 @@ package amirlabs.sapasemua.ui.menu.module
 
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.data.model.QuizResult
+import amirlabs.sapasemua.data.model.User
 import amirlabs.sapasemua.databinding.ItemListQuizResultBinding
+import amirlabs.sapasemua.utils.prefs
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import java.util.Locale
 
 class ListQuizResultAdapter(private val onItemClick: (QuizResult) -> Unit) : RecyclerView.Adapter<ListQuizResultAdapter.ViewHolder>() {
     val listData = ArrayList<QuizResult>()
+    private val user = prefs().getObject("user", User::class.java)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListQuizResultAdapter.ViewHolder {
         val view: ItemListQuizResultBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),

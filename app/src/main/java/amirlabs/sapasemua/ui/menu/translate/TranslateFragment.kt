@@ -77,7 +77,7 @@ class TranslateFragment : DevFragment<FragmentTranslateBinding>(R.layout.fragmen
                 handLandmarkerHelper.setupHandLandmarker()
             }
         }
-        vm.listenEvent()
+        vm.refreshConnection()
     }
 
     override fun initObserver() {
@@ -92,7 +92,7 @@ class TranslateFragment : DevFragment<FragmentTranslateBinding>(R.layout.fragmen
                     Log.d("Translate", "onClosed")
                 }
                 is WebSocket.Event.OnConnectionFailed -> {
-                    Log.d("Translate", "onFailed")
+                    vm.refreshConnection()
                 }
                 else->{}
             }

@@ -31,13 +31,7 @@ class ModuleFragment : DevFragment<FragmentModuleBinding>(R.layout.fragment_modu
         }.attach()
     }
 
-    override fun initAction() {
-        binding.btnAddModule.setOnClickListener {
-            menuNavController?.navigate(ModuleFragmentDirections.actionModuleFragmentToAddModuleFragment())
-        }
-    }
+    override fun initAction() {}
 
-    override fun initObserver() {
-
-    }
+    override fun initObserver() {}
 }

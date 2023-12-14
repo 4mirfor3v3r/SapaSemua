@@ -2,9 +2,12 @@ package amirlabs.sapasemua.ui.menu.module.submodule
 
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.base.DevFragment
+import amirlabs.sapasemua.data.model.User
 import amirlabs.sapasemua.databinding.FragmentSubModuleBinding
 import amirlabs.sapasemua.utils.DevState
 import amirlabs.sapasemua.utils.getViewModel
+import amirlabs.sapasemua.utils.isAdmin
+import amirlabs.sapasemua.utils.prefs
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -14,17 +17,23 @@ import com.bumptech.glide.Glide
 class SubModuleFragment : DevFragment<FragmentSubModuleBinding>(R.layout.fragment_sub_module) {
     override val vm: SubModuleViewModel by getViewModel()
     private val args: SubModuleFragmentArgs by navArgs()
+    private val user:User? = prefs().getObject("user", User::class.java)
+    private var editAccess = false
     private val menuNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_menu) }
     private lateinit var adapter :SubModuleAdapter
 
     override fun initData() {
         adapter =  SubModuleAdapter {
             if(it.id != null) {
-                menuNavController?.navigate(
-                    SubModuleFragmentDirections.actionSubModuleFragmentToLessonFragment(
-                        it.id
+                if(isAdmin() && editAccess){
+                    menuNavController?.navigate(SubModuleFragmentDirections.actionSubModuleFragmentToEditSubmoduleFragment(it.id))
+                }else {
+                    menuNavController?.navigate(
+                        SubModuleFragmentDirections.actionSubModuleFragmentToLessonFragment(
+                            it.id
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -59,6 +68,10 @@ class SubModuleFragment : DevFragment<FragmentSubModuleBinding>(R.layout.fragmen
                     Glide.with(requireContext()).load(it.data.image).into(binding.ivModule)
                     binding.tvTitle.text = it.data.name
                     binding.tvDescription.text = it.data.description
+                    if (user!=null){
+                        editAccess = it.data.creator == user.id
+                        adapter.setEditAccess(editAccess)
+                    }
                     adapter.updateList(it.data.submodule)
                 }
                 is DevState.Default -> {

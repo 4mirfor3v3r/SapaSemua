@@ -32,16 +32,19 @@
                 android:layout_marginStart="12dp"
                 android:lines="1"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/ivNotebook"
+                app:layout_constraintEnd_toStartOf="@id/ivDelete"
                 tools:text="@tools:sample/lorem"/>
             
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivNotebook"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivDelete"
+                app:shapeAppearance="@style/roundedImageView"
                 app:layout_constraintTop_toTopOf="@id/tvModuleLevel"
                 app:layout_constraintBottom_toBottomOf="@+id/tvModuleLevel"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
-                android:src="@drawable/sel_notebook"
+                android:src="@drawable/ic_close"
+                android:background="@color/primary"
+                app:tint="@color/white"
                 android:layout_marginEnd="16dp"
                 android:layout_height="wrap_content" />
 
