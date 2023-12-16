@@ -57,8 +57,24 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
         return mainApi.getOneModule(moduleId)
     }
 
+    override fun getLessons(moduleId: String): Single<BaseResponse<List<SubModule>>> {
+        return mainApi.getLessons(moduleId)
+    }
+
     override fun getOneSubModule(submoduleId: String): Single<BaseResponse<SubModule>> {
         return mainApi.getOneSubModule(submoduleId)
+    }
+
+    override fun createSubmodule(moduleId: String, body: Map<String, Any>, video: File): Single<BaseResponse<SubModule>> {
+        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "video", video.name, video.asRequestBody("*/*".toMediaTypeOrNull())
+        )
+        val body = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("module", moduleId)
+            .addFormDataPart("name", body["name"].toString())
+            .addFormDataPart("duration", body["duration"].toString())
+            .addPart(filePart)
+        return mainApi.createSubmodule(body.build())
     }
 
     override fun editSubmodule(submoduleId: String, body: Map<String, Any>, video: File?): Single<BaseResponse<SubModule>> {
@@ -68,7 +84,7 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
             )
         }
         val sentBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-        if (body.containsKey("title")) sentBody.addFormDataPart("name", body["title"].toString())
+        if (body.containsKey("name")) sentBody.addFormDataPart("name", body["name"].toString())
         if (body.containsKey("duration")) sentBody.addFormDataPart("duration", body["duration"].toString())
         if (filePart != null){
             sentBody.addPart(filePart)
@@ -97,6 +113,22 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
             body.addPart(videoPart)
         }
         return mainApi.createModule(body.build())
+    }
+
+    override fun editModule(moduleId: String, body: Map<String, Any>, image: File?): Single<BaseResponse<Module>> {
+        val filePart: MultipartBody.Part? = image?.asRequestBody("image/*".toMediaTypeOrNull())?.let {
+            MultipartBody.Part.createFormData(
+                "image", image.name, it
+            )
+        }
+        val sentBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+        if (body.containsKey("name")) sentBody.addFormDataPart("name", body["name"].toString())
+        if (body.containsKey("level")) sentBody.addFormDataPart("level", body["level"].toString())
+        if (body.containsKey("description")) sentBody.addFormDataPart("description", body["description"].toString())
+        if (filePart != null){
+            sentBody.addPart(filePart)
+        }
+        return mainApi.editModule(moduleId, sentBody.build())
     }
 
 //    override fun editModule(

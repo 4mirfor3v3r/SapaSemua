@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 
-class SubModuleAdapter(private val onItemClick: (SubModule) -> Unit) :
+class SubModuleAdapter(private val onItemClick: (SubModule,Int) -> Unit) :
     RecyclerView.Adapter<SubModuleAdapter.ViewHolder>() {
     private var editAccess = false
     val listData = ArrayList<SubModule>()
@@ -46,7 +46,7 @@ class SubModuleAdapter(private val onItemClick: (SubModule) -> Unit) :
                 ivEdit.visibility = if(isAdmin() && editAccess) android.view.View.VISIBLE else android.view.View.GONE
                 tvSubmoduleTitle.text = data.name
                 tvSubmoduleTime.text = "${data.duration ?: 10} minutes"
-                binding.root.setOnClickListener { onItemClick(data) }
+                binding.root.setOnClickListener { onItemClick(data, position) }
             }
         }
     }

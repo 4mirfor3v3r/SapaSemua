@@ -15,18 +15,14 @@ import java.io.FileOutputStream
 
 class LessonViewModel(private val repo: MainRepository) : DevViewModel(){
     private val disposable = CompositeDisposable()
-    private val _lesson = MutableLiveData<DevState<SubModule>>(DevState.default())
-    val lesson: MutableLiveData<DevState<SubModule>>
+    private val _lesson = MutableLiveData<DevState<List<SubModule>>>(DevState.default())
+    val lesson: MutableLiveData<DevState<List<SubModule>>>
         get() = _lesson
-    private val _video = MutableLiveData<File>()
-//    val video: LiveData<File>
-//        get() = _video
-    fun getLessonById(lessonId: String){
-        repo.getOneSubModule(lessonId)
+
+    fun getLessons(moduleId: String){
+        repo.getLessons(moduleId)
             .subscribe({
                 if (it.data != null) {
-//                    _video.postValue(base64ToVideo(it.data.video?:"", lessonId))
-//                    it.data.video = null
                     _lesson.postValue(DevState.success(it.data))
                 }
                 else _lesson.value = DevState.fail(null, it.message)

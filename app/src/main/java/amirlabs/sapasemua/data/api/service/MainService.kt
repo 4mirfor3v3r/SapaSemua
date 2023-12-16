@@ -37,14 +37,23 @@ interface MainService {
     @GET("module/{id}")
     fun getOneModule(@Path("id") moduleId:String): Single<BaseResponse<Module>>
 
+    @GET("module/{id}/submodule")
+    fun getLessons(@Path("id") moduleId: String): Single<BaseResponse<List<SubModule>>>
+
     @GET("module/lesson/{id}")
     fun getOneSubModule(@Path("id") lessonId:String): Single<BaseResponse<SubModule>>
+
+    @POST("module/submodule/create")
+    fun createSubmodule(@Body body: MultipartBody): Single<BaseResponse<SubModule>>
 
     @DELETE("module/{id}")
     fun deleteModule(@Path("id") moduleId:String): Single<BaseResponse<Module>>
 
     @POST("module/create")
     fun createModule(@Body body: MultipartBody): Single<BaseResponse<Module>>
+
+    @POST("module/{module_id}/edit")
+    fun editModule(@Path("module_id") moduleId:String, @Body body: MultipartBody): Single<BaseResponse<Module>>
 
     @POST("module/submodule/{submodule_id}/edit")
     fun editSubmodule(@Path("submodule_id") submoduleId:String, @Body body: MultipartBody): Single<BaseResponse<SubModule>>

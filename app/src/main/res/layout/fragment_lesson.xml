@@ -39,28 +39,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.media3.ui.PlayerView
-            android:id="@+id/videoLesson"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:translationZ="1dp"
-            app:layout_constraintBottom_toTopOf="@id/llAction"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpLesson"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:shutter_background_color="@android:color/transparent"
-            app:use_controller="false"
-            tools:background="@tools:sample/backgrounds/scenic" />
-
-        <TextView
-            android:id="@+id/tvLessonTitle"
-            style="@style/Poppins.600.Black.18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Huruf A"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            app:layout_constraintBottom_toTopOf="@id/llAction"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            tools:background="@color/secondary"
+            android:nestedScrollingEnabled="false"
+            android:layout_height="0dp" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivPlay"
@@ -68,10 +55,10 @@
             android:layout_height="80dp"
             android:src="@drawable/ic_play_lesson"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/videoLesson"
-            app:layout_constraintEnd_toEndOf="@id/videoLesson"
-            app:layout_constraintStart_toStartOf="@id/videoLesson"
-            app:layout_constraintTop_toTopOf="@id/videoLesson" />
+            app:layout_constraintBottom_toBottomOf="@id/vpLesson"
+            app:layout_constraintEnd_toEndOf="@id/vpLesson"
+            app:layout_constraintStart_toStartOf="@id/vpLesson"
+            app:layout_constraintTop_toTopOf="@id/vpLesson" />
 
         <LinearLayout
             android:id="@+id/llAction"

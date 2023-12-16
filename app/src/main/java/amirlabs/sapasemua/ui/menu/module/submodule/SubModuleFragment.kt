@@ -23,14 +23,15 @@ class SubModuleFragment : DevFragment<FragmentSubModuleBinding>(R.layout.fragmen
     private lateinit var adapter :SubModuleAdapter
 
     override fun initData() {
-        adapter =  SubModuleAdapter {
+        adapter =  SubModuleAdapter { it, position ->
             if(it.id != null) {
                 if(isAdmin() && editAccess){
                     menuNavController?.navigate(SubModuleFragmentDirections.actionSubModuleFragmentToEditSubmoduleFragment(it.id))
                 }else {
                     menuNavController?.navigate(
                         SubModuleFragmentDirections.actionSubModuleFragmentToLessonFragment(
-                            it.id
+                            args.moduleId ?: "",
+                            position
                         )
                     )
                 }

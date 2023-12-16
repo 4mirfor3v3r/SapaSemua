@@ -22,8 +22,8 @@ class ListModuleFragment : DevFragment<FragmentListModuleBinding>(R.layout.fragm
 
     override fun initData() {
         adapter = ModuleAdapter({
-            if (isAdmin() && user?.id == it.id){
-//                menuNavController
+            if (isAdmin() && user?.id == it.creator){
+                menuNavController?.navigate(ModuleFragmentDirections.actionModuleFragmentToEditModuleFragment(it.id!!))
             }else {
                 menuNavController?.navigate(ModuleFragmentDirections.actionModuleFragmentToSubModuleFragment(it.id))
             }

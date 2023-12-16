@@ -23,37 +23,60 @@ import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 
 class LessonFragment : DevFragment<FragmentLessonBinding>(R.layout.fragment_lesson) {
     override val vm: LessonViewModel by getViewModel()
     private val args: LessonFragmentArgs by navArgs()
     private val menuNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_menu) }
-
-    private var player: ExoPlayer?= null
-    // Create a data source factory.
-    private val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
+    private lateinit var adapter: LessonAdapter
 
     override fun initData() {
+        adapter = LessonAdapter{
 
+        }
     }
 
     override fun initUI() {
-//        initPlayer()
+        binding.vpLesson.adapter = adapter
     }
 
     override fun initAction() {
-        vm.getLessonById(args.lessonId)
+        binding.vpLesson.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                if (position == adapter.itemCount - 1) {
+                    binding.btnNext.text = "Selesai"
+                } else {
+                    binding.btnNext.text = "Selanjutnya"
+                }
+                binding.btnPrev.isEnabled = position != 0
+                binding.btnNext.isEnabled = position != adapter.itemCount - 1
+            }
+        })
         binding.btnBack.setOnClickListener {
             menuNavController?.popBackStack()
         }
+        binding.btnNext.setOnClickListener {
+            if (binding.vpLesson.currentItem < adapter.itemCount) {
+//            binding.vpLesson.currentItem += 1
+                binding.vpLesson.setCurrentItem(binding.vpLesson.currentItem + 1, true)
+            }
+        }
+        binding.btnPrev.setOnClickListener {
+            if (binding.vpLesson.currentItem > 0) {
+//            binding.vpLesson.currentItem -= 1
+                binding.vpLesson.setCurrentItem(binding.vpLesson.currentItem - 1, true)
+            }
+        }
+        vm.getLessons(args.moduleId)
     }
 
     override fun initObserver() {
         vm.lesson.observe(viewLifecycleOwner){
             when(it){
                 is DevState.Success -> {
-                    binding.tvLessonTitle.text = it.data.name
-                    initPlayer(it.data.video?:"")
+                    adapter.updateList(it.data)
+                    binding.vpLesson.setCurrentItem(args.position, true)
                 }
                 is DevState.Failure -> {
                 }
@@ -63,65 +86,4 @@ class LessonFragment : DevFragment<FragmentLessonBinding>(R.layout.fragment_less
             }
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-        pause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        play()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        releasePlayer()
-    }
-
-    @OptIn(UnstableApi::class) private fun initPlayer(mediaUrl: String){
-        player = ExoPlayer.Builder(requireContext())
-            .build()
-            .apply {
-                setMediaSource(getProgressiveMediaSource(mediaUrl))
-                prepare()
-                addListener(playerListener)
-            }
-    }
-    @OptIn(UnstableApi::class) private fun getProgressiveMediaSource(mediaUrl: String): MediaSource {
-        // Create a Regular media source pointing to a playlist uri.
-        return ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
-    }
-    private val playerListener = object: Player.Listener {
-        @OptIn(UnstableApi::class) override fun onPlaybackStateChanged(playbackState: Int) {
-            super.onPlaybackStateChanged(playbackState)
-            when(playbackState){
-                STATE_ENDED -> restartPlayer()
-                STATE_READY -> {
-                    binding.videoLesson.player = player
-                    binding.videoLesson.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
-                    play()
-                }
-            }
-        }
-    }
-    private fun releasePlayer(){
-        player?.apply {
-            playWhenReady = false
-            release()
-        }
-        player = null
-    }
-    private fun pause(){
-        player?.playWhenReady = false
-    }
-    private fun play(){
-        player?.playWhenReady = true
-    }
-    private fun restartPlayer(){
-        player?.seekTo(0)
-        player?.playWhenReady = true
-    }
-
 }
