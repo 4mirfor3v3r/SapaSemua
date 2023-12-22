@@ -25,6 +25,7 @@ interface MainRepository {
     fun getOneSubModule(submoduleId: String): Single<BaseResponse<SubModule>>
     fun createSubmodule(moduleId: String, body: Map<String, Any>, video: File): Single<BaseResponse<SubModule>>
     fun editSubmodule(submoduleId: String, body: Map<String, Any>, video: File?): Single<BaseResponse<SubModule>>
+    fun deleteSubmodule(submoduleId: String): Single<BaseResponse<SubModule>>
     fun createModule(id: String?, module: Map<String, Any>, image: File, submodule:List<Map<String, Any>>, video:List<File>): Single<BaseResponse<Module>>
     fun editModule(moduleId: String, body: Map<String, Any>, image: File?): Single<BaseResponse<Module>>
     fun deleteModule(moduleId: String): Single<BaseResponse<Module>>

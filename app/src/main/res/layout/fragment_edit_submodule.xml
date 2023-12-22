@@ -170,13 +170,27 @@
                     </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnSubmit"
-                        style="@style/Button.Primary15"
-                        android:layout_width="match_parent"
+                        android:id="@+id/btnDelete"
+                        style="@style/Button.Delete"
+                        android:layout_width="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btnSubmit"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:layout_marginHorizontal="16dp"
-                        android:text="Submit Video"
+                        android:text="Hapus Submodul"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnSubmit"
+                        style="@style/Button.Primary15"
+                        app:layout_constraintStart_toEndOf="@id/btnDelete"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="Submit Submodul"
                         app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </amirlabs.sapasemua.utils.widget.MultiStateView>

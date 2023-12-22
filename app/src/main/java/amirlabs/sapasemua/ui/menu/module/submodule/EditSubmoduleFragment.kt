@@ -131,6 +131,9 @@ class EditSubmoduleFragment : DevFragment<FragmentEditSubmoduleBinding>(R.layout
 //            logDebug(binding.etTitle.editText?.text.toString())
 //            logDebug(binding.etDuration.editText?.text.toString())
         }
+        binding.btnDelete.setOnClickListener {
+            vm.deleteSubmodule(args.submoduleId)
+        }
     }
 
     override fun initObserver() {
@@ -158,6 +161,16 @@ class EditSubmoduleFragment : DevFragment<FragmentEditSubmoduleBinding>(R.layout
                 }
                 else->{
                     
+                }
+            }
+        }
+        vm.deleteSubmoduleResult.observe(viewLifecycleOwner){
+            when(it){
+                is DevState.Success->{
+                    menuNavController?.popBackStack()
+                }
+                else->{
+
                 }
             }
         }

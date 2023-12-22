@@ -24,6 +24,9 @@ class SubModuleViewModel (private val repo: MainRepository) : DevViewModel(){
     private val _editSubmoduleResult = MutableLiveData<DevState<SubModule>>(DevState.Default())
     val editSubmoduleResult get() = _editSubmoduleResult
 
+    private val _deleteSubmoduleResult = MutableLiveData<DevState<SubModule>>(DevState.Default())
+    val deleteSubmoduleResult get() = _deleteSubmoduleResult
+
     private val _lesson = MutableLiveData<DevState<SubModule>>(DevState.default())
     val lesson: MutableLiveData<DevState<SubModule>>
         get() = _lesson
@@ -89,6 +92,26 @@ class SubModuleViewModel (private val repo: MainRepository) : DevViewModel(){
             }).let(disposable::add)
     }
 
+    fun deleteSubmodule(submoduleId: String){
+        _deleteSubmoduleResult.value = DevState.Loading()
+        repo.deleteSubmodule(submoduleId)
+            .delay(1000L, java.util.concurrent.TimeUnit.MILLISECONDS)
+            .compose(singleScheduler())
+            .subscribe({
+                if (it.data != null) _deleteSubmoduleResult.value = DevState.success(it.data)
+                else _deleteSubmoduleResult.value = DevState.fail(null, it.message)
+            },{
+                if (it is HttpException) {
+                    val errorBody = it.response()?.errorBody()?.string()
+                    if (errorBody != null) {
+                        _deleteSubmoduleResult.value = DevState.Failure(null, errorBody)
+                    }
+                } else {
+                    val errorMessage = it.localizedMessage
+                    _deleteSubmoduleResult.value = DevState.fail(null, errorMessage)
+                }
+            }).let(disposable::add)
+    }
 //    fun editModule(image: File?, video:List<File>?, submodule:List<Map<String, Any>>?, name: String, description: String?, level: Int?) {
 //        _editResult.value = DevState.Loading()
 //        val body = mapOf(

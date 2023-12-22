@@ -150,6 +150,7 @@ class EditModuleFragment : DevFragment<FragmentEditModuleBinding>(R.layout.fragm
                     binding.rbAdvanced.isChecked = true
                 }
             }
+            binding.btnSubmit.isEnabled = isVerified()
         }
         binding.btnSubmit.setOnClickListener {
             vm.editModule(
@@ -157,7 +158,7 @@ class EditModuleFragment : DevFragment<FragmentEditModuleBinding>(R.layout.fragm
                 binding.etAddSubject.editText?.text.toString(),
                 binding.etAddDesc.editText?.text.toString(),
                 level,
-                image!!
+                image
             )
         }
 
@@ -179,6 +180,17 @@ class EditModuleFragment : DevFragment<FragmentEditModuleBinding>(R.layout.fragm
                     Glide.with(requireContext()).load(it.data.image).into(binding.ivModule)
                     binding.etAddSubject.editText?.setText(it.data.name)
                     binding.etAddDesc.editText?.setText(it.data.description)
+                    when (it.data.level) {
+                        1 -> {
+                            binding.rgDifficulty.check(R.id.rbBasic)
+                        }
+                        2 -> {
+                            binding.rgDifficulty.check(R.id.rbIntermediate)
+                        }
+                        3 -> {
+                            binding.rgDifficulty.check(R.id.rbAdvanced)
+                        }
+                    }
                     adapter.updateList(it.data.submodule)
                 }
                 is DevState.Default -> {
@@ -235,7 +247,7 @@ class EditModuleFragment : DevFragment<FragmentEditModuleBinding>(R.layout.fragm
     }
 
     private fun isVerified(): Boolean {
-        return binding.etAddSubject.editText?.error == null && binding.etAddDesc.editText?.error == null && image != null && isEditing
+        return (binding.etAddSubject.editText?.error == null && binding.etAddDesc.editText?.error == null) && isEditing
     }
 
     private fun verifyName() {

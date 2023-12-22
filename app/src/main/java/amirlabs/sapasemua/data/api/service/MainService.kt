@@ -58,6 +58,9 @@ interface MainService {
     @POST("module/submodule/{submodule_id}/edit")
     fun editSubmodule(@Path("submodule_id") submoduleId:String, @Body body: MultipartBody): Single<BaseResponse<SubModule>>
 
+    @DELETE("module/submodule/{id}")
+    fun deleteSubmodule(@Path("id") submoduleId:String): Single<BaseResponse<SubModule>>
+
     @POST("module/quiz/create")
     fun createQuiz(@Body body: MultipartBody): Single<BaseResponse<Quiz>>
 

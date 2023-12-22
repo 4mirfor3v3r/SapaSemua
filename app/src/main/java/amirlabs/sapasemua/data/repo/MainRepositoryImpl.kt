@@ -92,6 +92,10 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
         return mainApi.editSubmodule(submoduleId, sentBody.build())
     }
 
+    override fun deleteSubmodule(submoduleId: String): Single<BaseResponse<SubModule>> {
+        return mainApi.deleteSubmodule(submoduleId)
+    }
+
     override fun createModule(
         id: String?, module: Map<String, Any>, image: File, submodule:List<Map<String, Any>>, video:List<File>
     ): Single<BaseResponse<Module>> {

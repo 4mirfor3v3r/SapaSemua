@@ -65,8 +65,7 @@ class ModuleAdapter(private val onItemClick: (Module) -> Unit, private val onDel
                     .load(data.image)
                     .into(ivModule)
 
-                binding.ivDelete.visibility = if (user?.role == "PELAJAR" && user.id == data.id) android.view.View.VISIBLE else android.view.View.GONE
-
+                binding.ivDelete.visibility = if (isAdmin() && user?.id == data.creator) android.view.View.VISIBLE else android.view.View.GONE
                 binding.ivDelete.setOnClickListener { onDeleteClick(data) }
                 binding.root.setOnClickListener { onItemClick(data) }
             }
