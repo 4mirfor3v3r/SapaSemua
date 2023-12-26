@@ -13,6 +13,9 @@ class HomeViewModel : DevViewModel(){
 
     }
 
+    fun getUserProfile(){
+    }
+
     override fun onCleared() {
         super.onCleared()
         disposable.dispose()

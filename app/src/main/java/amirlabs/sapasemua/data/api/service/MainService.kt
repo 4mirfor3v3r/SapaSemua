@@ -64,6 +64,15 @@ interface MainService {
     @POST("module/quiz/create")
     fun createQuiz(@Body body: MultipartBody): Single<BaseResponse<Quiz>>
 
+    @GET("module/quiz/{id}")
+    fun getOneQuiz(@Path("id") quizId:String): Single<BaseResponse<Quiz>>
+
+    @POST("module/quiz/{id}/edit")
+    fun editQuiz(@Path("id") quizId:String, @Body body: MultipartBody): Single<BaseResponse<Quiz>>
+
+    @DELETE("module/quiz/{id}")
+    fun deleteQuiz(@Path("id") quizId:String): Single<BaseResponse<Quiz>>
+
     @GET("module/{id}/quiz")
     fun getQuizByModule(@Path("id") moduleId:String): Single<BaseResponse<List<Quiz>>>
 

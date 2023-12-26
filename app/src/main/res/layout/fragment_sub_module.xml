@@ -40,173 +40,175 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ScrollView
+        <amirlabs.sapasemua.utils.widget.MultiStateView
+            android:id="@+id/msvSubmodule"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:msv_animateViewChanges="true"
+            app:msv_emptyView="@layout/default_empty_layout"
+            app:msv_errorView="@layout/default_error_layout"
+            app:msv_loadingView="@layout/fragment_sub_module_loading">
 
-            <amirlabs.sapasemua.utils.widget.MultiStateView
-                android:id="@+id/msvSubmodule"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:msv_animateViewChanges="true"
-                app:msv_emptyView="@layout/default_empty_layout"
-                app:msv_errorView="@layout/default_error_layout"
-                app:msv_loadingView="@layout/fragment_sub_module_loading">
+                android:layout_height="match_parent">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/etSearch"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:hint="Cari Kata yang diinginkan"
-                    app:boxBackgroundColor="@color/white"
-                    app:boxStrokeColor="@color/white"
-                    app:boxStrokeWidth="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="wrap_content">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etSearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_search"
-                        android:drawablePadding="8dp"
-                        android:inputType="textEmailAddress" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginHorizontal="16dp"
+                        android:hint="Cari Kata yang diinginkan"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidth="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardIvContainer"
-                    android:layout_width="0dp"
-                    android:layout_height="250dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@drawable/bg_sub_module"
-                    android:orientation="vertical"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:layout_constraintEnd_toEndOf="@+id/etSearch"
-                    app:layout_constraintStart_toStartOf="@+id/etSearch"
-                    app:layout_constraintTop_toBottomOf="@+id/etSearch" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/ic_search"
+                            android:drawablePadding="8dp"
+                            android:inputType="textEmailAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    style="@style/Poppins.600.Black.20sp"
-                    android:layout_width="0dp"
-                    android:id="@+id/tvTitle"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginVertical="16dp"
-                    android:text="Alfabet"
-                    android:translationZ="2dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/cardIvContainer"
-                    app:layout_constraintEnd_toEndOf="@id/ivModule"
-                    app:layout_constraintStart_toStartOf="@id/cardIvContainer"
-                    app:layout_constraintTop_toBottomOf="@id/ivModule" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivModule"
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:scaleType="centerCrop"
-                    android:translationZ="2dp"
-                    app:layout_constraintEnd_toEndOf="@+id/etSearch"
-                    app:layout_constraintStart_toStartOf="@+id/etSearch"
-                    app:layout_constraintTop_toBottomOf="@+id/etSearch"
-                    app:shapeAppearance="@style/roundedBottomImageView"
-                    tools:src="@tools:sample/backgrounds/scenic" />
-
-                <LinearLayout
-                    android:id="@+id/llDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-8dp"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@id/cardIvContainer">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardIvContainer"
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:background="@drawable/bg_sub_module"
+                        android:orientation="vertical"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="2dp"
+                        app:layout_constraintEnd_toEndOf="@+id/etSearch"
+                        app:layout_constraintStart_toStartOf="@+id/etSearch"
+                        app:layout_constraintTop_toBottomOf="@+id/etSearch" />
 
                     <TextView
+                        android:id="@+id/tvTitle"
                         style="@style/Poppins.600.Black.20sp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Deskripsi"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginVertical="16dp"
+                        android:text="Alfabet"
                         android:translationZ="2dp"
                         app:layout_constraintBottom_toBottomOf="@+id/cardIvContainer"
                         app:layout_constraintEnd_toEndOf="@id/ivModule"
                         app:layout_constraintStart_toStartOf="@id/cardIvContainer"
                         app:layout_constraintTop_toBottomOf="@id/ivModule" />
 
-                    <TextView
-                        style="@style/Poppins.Black60.14sp"
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivModule"
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:scaleType="centerCrop"
+                        android:translationZ="2dp"
+                        app:layout_constraintEnd_toEndOf="@+id/etSearch"
+                        app:layout_constraintStart_toStartOf="@+id/etSearch"
+                        app:layout_constraintTop_toBottomOf="@+id/etSearch"
+                        app:shapeAppearance="@style/roundedBottomImageView"
+                        tools:src="@tools:sample/backgrounds/scenic" />
+
+                    <LinearLayout
+                        android:id="@+id/llDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-8dp"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/cardIvContainer">
+
+                        <TextView
+                            style="@style/Poppins.600.Black.20sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="Deskripsi"
+                            android:translationZ="2dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/cardIvContainer"
+                            app:layout_constraintEnd_toEndOf="@id/ivModule"
+                            app:layout_constraintStart_toStartOf="@id/cardIvContainer"
+                            app:layout_constraintTop_toBottomOf="@id/ivModule" />
+
+                        <TextView
+                            android:id="@+id/tvDescription"
+                            style="@style/Poppins.Black60.14sp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:translationZ="2dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/cardIvContainer"
+                            app:layout_constraintEnd_toEndOf="@id/ivModule"
+                            app:layout_constraintStart_toStartOf="@id/cardIvContainer"
+                            app:layout_constraintTop_toBottomOf="@id/ivModule"
+                            tools:lines="6"
+                            tools:text="@tools:sample/lorem/random" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#CBD5E1" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="16dp">
+
+                            <TextView
+                                style="@style/Poppins.Black60.14sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="16dp"
+                                android:layout_toStartOf="@id/btnQuiz"
+                                android:text="Yuk asah kemampuanmu\ndengan mengerjakan kuis" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btnQuiz"
+                                style="@style/Button.Primary15"
+                                android:layout_width="wrap_content"
+                                android:layout_height="48dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginHorizontal="16dp"
+                                android:text="Mulai Kuis"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSubmodule"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:id="@+id/tvDescription"
-                        android:translationZ="2dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/cardIvContainer"
-                        app:layout_constraintEnd_toEndOf="@id/ivModule"
-                        app:layout_constraintStart_toStartOf="@id/cardIvContainer"
-                        app:layout_constraintTop_toBottomOf="@id/ivModule"
-                        tools:lines="6"
-                        tools:text="@tools:sample/lorem/random" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#CBD5E1" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingVertical="16dp">
-
-                        <TextView
-                            style="@style/Poppins.Black60.14sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:layout_toStartOf="@id/btnQuiz"
-                            android:text="Yuk asah kemampuanmu\ndengan mengerjakan kuis" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btnQuiz"
-                            style="@style/Button.Primary15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginHorizontal="16dp"
-                            android:text="Mulai Kuis"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvSubmodule"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
-                    android:nestedScrollingEnabled="false"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/llDescription"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_submodule" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            </amirlabs.sapasemua.utils.widget.MultiStateView>
-        </ScrollView>
+                        android:layout_marginTop="8dp"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constrainedHeight="true"
+                        app:layout_constraintTop_toBottomOf="@id/llDescription"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_submodule" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </amirlabs.sapasemua.utils.widget.MultiStateView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,15 +1,13 @@
-package amirlabs.sapasemua.ui.menu.module.add_quiz
+package amirlabs.sapasemua.ui.menu.module.edit_quiz
 
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.base.DevFragment
-import amirlabs.sapasemua.databinding.FragmentAddQuizBinding
+import amirlabs.sapasemua.databinding.FragmentEditQuizBinding
 import amirlabs.sapasemua.utils.DevState
 import amirlabs.sapasemua.utils.getViewModel
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -17,14 +15,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
-import androidx.media3.datasource.DataSpec
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.FileDataSource
 import androidx.media3.exoplayer.ExoPlayer
@@ -43,21 +39,21 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 @UnstableApi
-class AddQuizFragment : DevFragment<FragmentAddQuizBinding>(R.layout.fragment_add_quiz) {
-    override val vm: AddQuizViewModel by getViewModel()
-    private val args: AddQuizFragmentArgs by navArgs()
+class EditQuizFragment : DevFragment<FragmentEditQuizBinding>(R.layout.fragment_edit_quiz) {
+    override val vm: EditQuizViewModel by getViewModel()
+    private val args: EditQuizFragmentArgs by navArgs()
     private val menuNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_menu) }
     private lateinit var pickVideo: ActivityResultLauncher<PickVisualMediaRequest>
     private var video: File? = null
 
     private var player: ExoPlayer?= null
+    private val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
     private val fileDataSourceFactory: DataSource.Factory = DataSource.Factory { FileDataSource() }
 
     override fun initData() {
         if (!checkPermissions()) {
             requestPermissions()
         }
-
         pickVideo = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 lifecycleScope.launch {
@@ -140,13 +136,49 @@ class AddQuizFragment : DevFragment<FragmentAddQuizBinding>(R.layout.fragment_ad
             val option2 = binding.etAddAnswer2.editText?.text.toString()
             val option3 = binding.etAddAnswer3.editText?.text.toString()
             val option4 = binding.etAddAnswer4.editText?.text.toString()
-            vm.createQuiz(args.moduleId, question, answer, option1, option2, option3, option4, video!!)
+            vm.editQuiz(args.quizId, question, answer, option1, option2, option3, option4, video)
         }
+        vm.getOneQuiz(args.quizId)
     }
 
-
     override fun initObserver() {
-        vm.createResult.observe(viewLifecycleOwner) {
+        vm.quiz.observe(viewLifecycleOwner){
+            when(it){
+                is DevState.Loading -> {
+//                    binding.msvSubmodule.showLoadingLayout()
+                }
+                is DevState.Failure -> {
+//                    binding.msvSubmodule.showErrorLayout()
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                }
+                is DevState.Success -> {
+//                    binding.msvSubmodule.showDefaultLayout()
+//                    Glide.with(requireContext()).load(it.data.image).into(binding.ivModule)
+                    binding.etAddSubject.editText?.setText(it.data.question)
+                    binding.etAddAnswer1.editText?.setText(it.data.option1)
+                    binding.etAddAnswer2.editText?.setText(it.data.option2)
+                    binding.etAddAnswer3.editText?.setText(it.data.option3)
+                    binding.etAddAnswer4.editText?.setText(it.data.option4)
+                    when (it.data.answer) {
+                        it.data.option1 -> {
+                            binding.rgCorrectAnswer.check(R.id.rbCorrect1)
+                        }
+                        it.data.option2 -> {
+                            binding.rgCorrectAnswer.check(R.id.rbCorrect2)
+                        }
+                        it.data.option3 -> {
+                            binding.rgCorrectAnswer.check(R.id.rbCorrect3)
+                        }
+                        it.data.option4 -> {
+                            binding.rgCorrectAnswer.check(R.id.rbCorrect4)
+                        }
+                    }
+                    if (it.data.attachment != null) initPlayer(it.data.attachment!!)
+                }
+                else -> {}
+            }
+        }
+        vm.editResult.observe(viewLifecycleOwner) {
             when (it) {
                 is DevState.Loading -> {
                     binding.etAddSubject.isEnabled = false
@@ -155,39 +187,36 @@ class AddQuizFragment : DevFragment<FragmentAddQuizBinding>(R.layout.fragment_ad
                     binding.etAddAnswer3.isEnabled = false
                     binding.etAddAnswer4.isEnabled = false
                     binding.btnSubmit.isClickable = false
-                    binding.rgCorrectAnswer.isClickable = false
                     binding.btnSubmit.startAnimation()
                 }
 
                 is DevState.Success -> {
+                    binding.btnSubmit.revertAnimation {
+                        binding.btnSubmit.background =
+                            ResourcesCompat.getDrawable(resources, R.drawable.sample, null)
+                    }
+                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                    vm.getOneQuiz(args.quizId)
+                    video = null
                     binding.etAddSubject.isEnabled = true
                     binding.etAddAnswer1.isEnabled = true
                     binding.etAddAnswer2.isEnabled = true
                     binding.etAddAnswer3.isEnabled = true
                     binding.etAddAnswer4.isEnabled = true
-                    binding.rgCorrectAnswer.isClickable = true
-
-                    binding.btnSubmit.revertAnimation {
-                        binding.btnSubmit.background =
-                            ResourcesCompat.getDrawable(resources, R.drawable.sample, null)
-                        binding.btnSubmit.isClickable = true
-                    }
-                    menuNavController?.popBackStack()
+                    binding.btnSubmit.isClickable = true
                 }
 
                 is DevState.Failure -> {
+                    binding.btnSubmit.revertAnimation {
+                        binding.btnSubmit.background =
+                            ResourcesCompat.getDrawable(resources, R.drawable.sample, null)
+                    }
                     binding.etAddSubject.isEnabled = true
                     binding.etAddAnswer1.isEnabled = true
                     binding.etAddAnswer2.isEnabled = true
                     binding.etAddAnswer3.isEnabled = true
                     binding.etAddAnswer4.isEnabled = true
-                    binding.rgCorrectAnswer.isClickable = true
-
-                    binding.btnSubmit.revertAnimation {
-                        binding.btnSubmit.background =
-                            ResourcesCompat.getDrawable(resources, R.drawable.sample, null)
-                        binding.btnSubmit.isClickable = true
-                    }
+                    binding.btnSubmit.isClickable = true
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
 
@@ -196,7 +225,20 @@ class AddQuizFragment : DevFragment<FragmentAddQuizBinding>(R.layout.fragment_ad
             }
         }
     }
-
+    @OptIn(UnstableApi::class) private fun initPlayer(mediaUrl: String){
+        player = ExoPlayer.Builder(requireContext())
+            .build()
+            .apply {
+                setMediaSource(getProgressiveMediaSource(mediaUrl))
+                prepare()
+                addListener(playerListener)
+            }
+    }
+    @OptIn(UnstableApi::class) private fun getProgressiveMediaSource(mediaUrl: String): MediaSource {
+        // Create a Regular media source pointing to a playlist uri.
+        return ProgressiveMediaSource.Factory(dataSourceFactory)
+            .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
+    }
     @OptIn(UnstableApi::class) private fun initFilePlayer(file: File){
         player = ExoPlayer.Builder(requireContext())
             .build()
@@ -210,7 +252,7 @@ class AddQuizFragment : DevFragment<FragmentAddQuizBinding>(R.layout.fragment_ad
         return ProgressiveMediaSource.Factory(fileDataSourceFactory)
             .createMediaSource(MediaItem.fromUri(file.toURI().toString()))
     }
-    val playerListener = object: Player.Listener {
+    private val playerListener = object: Player.Listener {
         @OptIn(UnstableApi::class) override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
             when(playbackState){
@@ -223,7 +265,8 @@ class AddQuizFragment : DevFragment<FragmentAddQuizBinding>(R.layout.fragment_ad
             }
         }
     }
-    fun releasePlayer(){
+
+    private fun releasePlayer(){
         player?.apply {
             playWhenReady = false
             release()
@@ -239,21 +282,21 @@ class AddQuizFragment : DevFragment<FragmentAddQuizBinding>(R.layout.fragment_ad
     }
 
     private fun isVerified(): Boolean {
-        return binding.etAddSubject.editText?.error == null &&
+        return (binding.etAddSubject.editText?.error == null &&
                 binding.etAddAnswer1.editText?.error == null &&
                 binding.etAddAnswer2.editText?.error == null &&
                 binding.etAddAnswer3.editText?.error == null &&
                 binding.etAddAnswer4.editText?.error == null &&
-                video != null &&
                 (binding.rbCorrect1.isChecked ||
-                binding.rbCorrect2.isChecked ||
-                binding.rbCorrect3.isChecked ||
-                binding.rbCorrect4.isChecked) &&
+                        binding.rbCorrect2.isChecked ||
+                        binding.rbCorrect3.isChecked ||
+                        binding.rbCorrect4.isChecked) &&
                 binding.etAddSubject.editText?.text.toString().isNotEmpty() &&
                 binding.etAddAnswer1.editText?.text.toString().isNotEmpty() &&
                 binding.etAddAnswer2.editText?.text.toString().isNotEmpty() &&
                 binding.etAddAnswer3.editText?.text.toString().isNotEmpty() &&
-                binding.etAddAnswer4.editText?.text.toString().isNotEmpty()
+                binding.etAddAnswer4.editText?.text.toString().isNotEmpty()) ||
+                video != null
     }
 
     private fun verifyQuestion() {

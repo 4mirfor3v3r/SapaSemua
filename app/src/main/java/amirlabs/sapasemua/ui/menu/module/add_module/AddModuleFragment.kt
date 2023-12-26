@@ -50,10 +50,10 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
         adapter = AddModuleAdapter({ it, position ->
             DialogUtils.showAddModuleDialog(requireContext(),
                 saveButtonClicked = { title, duration ->
-                    if(title?.isNotEmpty() == true && duration != -1){
+                    if (title?.isNotEmpty() == true && duration != -1) {
                         it.name = title
                         it.duration = duration
-                        adapter.updateOne(it,position)
+                        adapter.updateOne(it, position)
                         submodule[position] = mapOf("name" to title, "duration" to duration!!)
                     }
                 })
@@ -68,7 +68,7 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
             if (uri != null) {
                 lifecycleScope.launch {
                     val f = File(requireContext().cacheDir, System.currentTimeMillis().toString())
-                    withContext(Dispatchers.IO){
+                    withContext(Dispatchers.IO) {
                         f.createNewFile()
                         val inputStream = activity?.contentResolver?.openInputStream(uri)
                         var fos: FileOutputStream? = null
@@ -86,21 +86,21 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
                             e.printStackTrace()
                         }
                         image = f
-                        withContext(Dispatchers.Main){
+                        withContext(Dispatchers.Main) {
                             Glide.with(binding.root.context)
                                 .load(image)
                                 .into(binding.ivModule)
+                            binding.btnSubmit.isEnabled = isVerified()
                         }
                     }
                 }
-                binding.btnSubmit.isEnabled = isVerified()
             }
         }
         pickVideo = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 lifecycleScope.launch {
                     val f = File(requireContext().cacheDir, System.currentTimeMillis().toString())
-                    withContext(Dispatchers.IO){
+                    withContext(Dispatchers.IO) {
                         f.createNewFile()
                         val inputStream = activity?.contentResolver?.openInputStream(uri)
                         var fos: FileOutputStream? = null
@@ -120,7 +120,7 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
                         video.add(f)
                     }
                 }
-                adapter.add(SubModule(name="Video", duration=10))
+                adapter.add(SubModule(name = "Video", duration = 10))
                 submodule.add(mapOf("name" to "Video", "duration" to 10))
                 binding.btnSubmit.isEnabled = isVerified()
             }
@@ -203,7 +203,6 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
                     binding.etAddDesc.isEnabled = false
                     binding.btnSubmit.isClickable = false
                     binding.ivModule.isClickable = false
-                    binding.btnAddQuiz.isClickable = false
                     binding.btnSubmit.startAnimation()
                 }
 
@@ -228,7 +227,6 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
                     binding.etAddDesc.isEnabled = true
                     binding.btnSubmit.isClickable = true
                     binding.ivModule.isClickable = true
-                    binding.btnAddQuiz.isClickable = true
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
 
@@ -261,7 +259,7 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED&&
+            ) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
@@ -284,6 +282,7 @@ class AddModuleFragment : DevFragment<FragmentAddModuleBinding>(R.layout.fragmen
                 activity?.contentResolver,
                 selectedPhotoUri
             )
+
             else -> {
                 val source =
                     ImageDecoder.createSource(requireActivity().contentResolver, selectedPhotoUri)

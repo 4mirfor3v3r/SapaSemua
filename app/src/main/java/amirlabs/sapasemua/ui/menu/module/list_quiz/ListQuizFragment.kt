@@ -18,11 +18,12 @@ class ListQuizFragment : DevFragment<FragmentListQuizBinding>(R.layout.fragment_
     override fun initData() {
         adapter = ListQuizAdapter(
             onItemClick = {
-//                val action = ListQuizFragmentDirections.actionListQuizFragmentToQuizFragment(it)
-//                menuNavController?.navigate(action)
+                if (it.id == null) return@ListQuizAdapter
+                menuNavController?.navigate(ListQuizFragmentDirections.actionListQuizFragmentToEditQuizFragment(it.id))
             },
             onItemDelete = { item, position ->
-                adapter.remove(position)
+                if (item.id == null) return@ListQuizAdapter
+                vm.deleteQuiz(item.id)
             }
         )
     }
@@ -55,6 +56,21 @@ class ListQuizFragment : DevFragment<FragmentListQuizBinding>(R.layout.fragment_
                 }
                 is DevState.Success -> {
                     adapter.updateList(it.data)
+                }
+                is DevState.Default -> {}
+                is DevState.Empty -> {}
+            }
+        }
+        vm.deleteQuiz.observe(viewLifecycleOwner){
+            when(it){
+                is DevState.Loading -> {
+                }
+                is DevState.Failure -> {
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                }
+                is DevState.Success -> {
+                    Toast.makeText(context, "Delete Quiz Success", Toast.LENGTH_SHORT).show()
+                    vm.getQuizByModule(args.moduleId)
                 }
                 is DevState.Default -> {}
                 is DevState.Empty -> {}

@@ -5,6 +5,7 @@ import amirlabs.sapasemua.base.DevFragment
 import amirlabs.sapasemua.databinding.FragmentProfileDetailBinding
 import amirlabs.sapasemua.utils.DevState
 import amirlabs.sapasemua.utils.getViewModel
+import amirlabs.sapasemua.utils.logDebug
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -38,7 +39,7 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
     private val args: ProfileDetailFragmentArgs by navArgs()
     private val menuNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_menu) }
     private var image: File? = null
-    private var updatedField: Map<String?, Any> = emptyMap()
+    private var updatedField: MutableMap<String?, Any> = mutableMapOf()
     private lateinit var pickImage: ActivityResultLauncher<PickVisualMediaRequest>
 
     override fun initData() {
@@ -89,19 +90,19 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
             menuNavController?.popBackStack()
         }
         binding.etName.editText?.doAfterTextChanged {
-            updatedField.plus(Pair("name", it.toString()))
+            updatedField["name"] = it.toString()
             binding.btnEditProfile.isEnabled = isVerified()
         }
         binding.etEmail.editText?.doAfterTextChanged {
-            updatedField.plus(Pair("email", it.toString()))
+            updatedField["email"] = it.toString()
             binding.btnEditProfile.isEnabled = isVerified()
         }
         binding.etDomicile.editText?.doAfterTextChanged {
-            updatedField.plus(Pair("domicile", it.toString()))
+            updatedField["domicile"] = it.toString()
             binding.btnEditProfile.isEnabled = isVerified()
         }
         binding.etBio.editText?.doAfterTextChanged {
-            updatedField.plus(Pair("bio", it.toString()))
+            updatedField["bio"] = it.toString()
             binding.btnEditProfile.isEnabled = isVerified()
         }
         binding.ivAvatar.setOnClickListener {
@@ -123,9 +124,6 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
 //                    binding.progressBar.visibility = View.VISIBLE
                 }
                 is DevState.Success -> {
-                    updatedField = emptyMap()
-                    image = null
-                    binding.btnEditProfile.isEnabled = isVerified()
                     binding.etName.editText?.setText(it.data.name)
                     binding.etEmail.editText?.setText(it.data.email)
                     binding.etPhone.editText?.setText(it.data.role)
@@ -137,6 +135,9 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
                             .load(it.data.avatar)
                             .into(binding.ivAvatar)
                     }
+                    updatedField.clear()
+                    image = null
+                    binding.btnEditProfile.isEnabled = isVerified()
                 }
                 is DevState.Failure -> {
 //                    binding.progressBar.visibility = View.GONE
@@ -145,21 +146,21 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
                 else ->{}
             }
         }
-        vm.profile.observe(viewLifecycleOwner){
+        vm.submitProfile.observe(viewLifecycleOwner){
             when(it){
                 is DevState.Loading -> {
 //                    binding.progressBar.visibility = View.VISIBLE
                 }
                 is DevState.Success -> {
-                    updatedField = emptyMap()
-                    image = null
-                    binding.btnEditProfile.isEnabled = isVerified()
                     binding.etName.editText?.setText(it.data.name)
                     binding.etEmail.editText?.setText(it.data.email)
                     binding.etPhone.editText?.setText(it.data.role)
                     binding.etDomicile.editText?.setText(it.data.domicile)
                     binding.etBio.editText?.setText(it.data.bio)
                     vm.getProfileDetail(args.userId)
+                    updatedField.clear()
+                    image = null
+                    binding.btnEditProfile.isEnabled = isVerified()
                 }
                 is DevState.Failure -> {
 //                    binding.progressBar.visibility = View.GONE
@@ -172,6 +173,7 @@ class ProfileDetailFragment : DevFragment<FragmentProfileDetailBinding>(R.layout
 
 
     private fun isVerified(): Boolean {
+        logDebug("updatedField: $updatedField")
         return updatedField.isNotEmpty() || image != null
     }
 

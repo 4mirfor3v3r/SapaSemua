@@ -128,8 +128,6 @@ class EditSubmoduleFragment : DevFragment<FragmentEditSubmoduleBinding>(R.layout
                 binding.etTitle.editText?.text.toString(),
                 binding.etDuration.editText?.text.toString()
             )
-//            logDebug(binding.etTitle.editText?.text.toString())
-//            logDebug(binding.etDuration.editText?.text.toString())
         }
         binding.btnDelete.setOnClickListener {
             vm.deleteSubmodule(args.submoduleId)

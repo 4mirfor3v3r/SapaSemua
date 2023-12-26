@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--suppress NavigationFile -->
+<?xml version="1.0" encoding="utf-8"?><!--suppress NavigationFile -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -162,7 +161,7 @@
             app:enterAnim="@anim/anim_slide_in_right"
             app:exitAnim="@anim/anim_slide_out_left"
             app:popEnterAnim="@anim/anim_slide_in_left"
-            app:popExitAnim="@anim/anim_slide_out_right"/>
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addQuizFragment"
@@ -188,8 +187,8 @@
             app:argType="string" />
         <argument
             android:name="position"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/listQuizFragment"
@@ -206,6 +205,9 @@
         <argument
             android:name="moduleId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_listQuizFragment_to_editQuizFragment"
+            app:destination="@id/editQuizFragment" />
     </fragment>
     <fragment
         android:id="@+id/quizFragment"
@@ -260,34 +262,34 @@
     <fragment
         android:id="@+id/listModuleFragment"
         android:name="amirlabs.sapasemua.ui.menu.module.ListModuleFragment"
-        tools:layout="@layout/fragment_list_module"
-        android:label="ListModuleFragment" />
+        android:label="ListModuleFragment"
+        tools:layout="@layout/fragment_list_module" />
     <fragment
         android:id="@+id/listQuizResultFragment"
-        tools:layout="@layout/fragment_list_quiz_result"
         android:name="amirlabs.sapasemua.ui.menu.module.ListQuizResultFragment"
-        android:label="ListQuizResultFragment" />
+        android:label="ListQuizResultFragment"
+        tools:layout="@layout/fragment_list_quiz_result" />
     <fragment
         android:id="@+id/editSubmoduleFragment"
-        tools:layout="@layout/fragment_edit_submodule"
         android:name="amirlabs.sapasemua.ui.menu.module.submodule.EditSubmoduleFragment"
-        android:label="EditSubmoduleFragment" >
+        android:label="EditSubmoduleFragment"
+        tools:layout="@layout/fragment_edit_submodule">
         <argument
             android:name="submoduleId"
             app:argType="string" />
         <argument
             android:name="editAccess"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
     <argument
         android:name="submoduleId"
         app:argType="string" />
     <fragment
         android:id="@+id/editModuleFragment"
-        tools:layout="@layout/fragment_edit_module"
         android:name="amirlabs.sapasemua.ui.menu.module.edit_module.EditModuleFragment"
-        android:label="EditModuleFragment" >
+        android:label="EditModuleFragment"
+        tools:layout="@layout/fragment_edit_module">
         <action
             android:id="@+id/action_editModuleFragment_to_editSubmoduleFragment"
             app:destination="@id/editSubmoduleFragment" />
@@ -297,14 +299,26 @@
         <argument
             android:name="moduleId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_editModuleFragment_to_listQuizFragment"
+            app:destination="@id/listQuizFragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_add_submodule"
         android:id="@+id/addSubmoduleFragment"
         android:name="amirlabs.sapasemua.ui.menu.module.add_submodule.AddSubmoduleFragment"
-        android:label="AddSubmoduleFragment" >
+        android:label="AddSubmoduleFragment"
+        tools:layout="@layout/fragment_add_submodule">
         <argument
             android:name="moduleId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editQuizFragment"
+        android:name="amirlabs.sapasemua.ui.menu.module.edit_quiz.EditQuizFragment"
+        android:label="EditQuizFragment"
+        tools:layout="@layout/fragment_edit_quiz" >
+        <argument
+            android:name="quizId"
             app:argType="string" />
     </fragment>
 </navigation>

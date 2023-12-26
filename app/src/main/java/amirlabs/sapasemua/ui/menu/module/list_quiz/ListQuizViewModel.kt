@@ -16,6 +16,9 @@ class ListQuizViewModel(private val repo: MainRepository)  : DevViewModel(){
     private val _quiz = MutableLiveData<DevState<List<Quiz>>>()
     val quiz: LiveData<DevState<List<Quiz>>> get() = _quiz
 
+    private val _deleteQuiz = MutableLiveData<DevState<Quiz>>()
+    val deleteQuiz: LiveData<DevState<Quiz>> get() = _deleteQuiz
+
     fun getQuizByModule(moduleId:String){
         _quiz.value = DevState.loading()
         repo.getQuizQuestion(moduleId)
@@ -23,7 +26,7 @@ class ListQuizViewModel(private val repo: MainRepository)  : DevViewModel(){
             .compose(singleScheduler())
             .subscribe({
                 if (it.data == null) {
-                    _quiz.value = DevState.fail(null, "Data Kosong")
+                    _quiz.value = DevState.fail(null, it.message)
                 }else if (it.data.isEmpty()) {
                     _quiz.value = DevState.empty()
                 }
@@ -37,6 +40,30 @@ class ListQuizViewModel(private val repo: MainRepository)  : DevViewModel(){
                 } else {
                     val errorMessage = it.localizedMessage
                     _quiz.value = DevState.fail(null, errorMessage)
+                }
+            }).let(disposable::add)
+    }
+
+    fun deleteQuiz(quizId: String){
+        _deleteQuiz.value = DevState.loading()
+        repo.deleteQuiz(quizId)
+            .delay(1000L, TimeUnit.MILLISECONDS)
+            .compose(singleScheduler())
+            .subscribe({
+                if (it.data == null) {
+                    _deleteQuiz.value = DevState.fail(null, it.message)
+                }else {
+                    _deleteQuiz.value = DevState.success(it.data)
+                }
+            },{
+                if (it is HttpException) {
+                    val errorBody = it.response()?.errorBody()?.string()
+                    if (errorBody != null) {
+                        _deleteQuiz.value = DevState.Failure(null, errorBody)
+                    }
+                } else {
+                    val errorMessage = it.localizedMessage
+                    _deleteQuiz.value = DevState.fail(null, errorMessage)
                 }
             }).let(disposable::add)
     }

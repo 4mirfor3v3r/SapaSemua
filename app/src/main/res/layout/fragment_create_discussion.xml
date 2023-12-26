@@ -115,40 +115,29 @@
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/llAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="16dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnAddQuiz"
-                style="@style/Button.Primary15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:text="Tambah Kuis" />
-
             <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btnSubmit"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_marginHorizontal="16dp"
-                android:layout_weight="1"
                 android:background="@drawable/sample"
                 android:text="Buat Modul"
                 android:enabled="false"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPassword"
                 app:spinning_bar_color="#FFF"
                 app:initialCornerAngle="16dp"
                 app:spinning_bar_padding="6dp"
                 app:spinning_bar_width="4dp" />
-        </LinearLayout>
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

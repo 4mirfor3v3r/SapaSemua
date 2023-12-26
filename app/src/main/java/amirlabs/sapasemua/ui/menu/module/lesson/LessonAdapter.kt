@@ -36,12 +36,12 @@ class LessonAdapter(
 
     override fun onViewAttachedToWindow(holder: ViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.play()
+        holder.initPlayer(listData[holder.bindingAdapterPosition].video ?: "")
     }
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        holder.pause()
+        holder.releasePlayer()
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(list: List<SubModule>) {
@@ -62,11 +62,11 @@ class LessonAdapter(
                     onItemClick(data)
                 }
 //                logError(data.video ?: "")
-                initPlayer(data.video ?: "")
+//                initPlayer(data.video ?: "")
             }
         }
 
-        @OptIn(UnstableApi::class) private fun initPlayer(mediaUrl: String){
+        @OptIn(UnstableApi::class) fun initPlayer(mediaUrl: String){
             player = ExoPlayer.Builder(binding.root.context)
                 .build()
                 .apply {
@@ -87,7 +87,7 @@ class LessonAdapter(
                     Player.STATE_ENDED -> restartPlayer()
                     Player.STATE_READY -> {
                         binding.videoLesson.player = player
-                        binding.videoLesson.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                        binding.videoLesson.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
                         play()
                     }
                 }

@@ -190,16 +190,8 @@ class AddSubmoduleFragment : DevFragment<FragmentAddSubmoduleBinding>(R.layout.f
     }
 
     @OptIn(UnstableApi::class) private fun getFileMediaSource(file:File): MediaSource {
-        val dataSpec = DataSpec(file.toUri())
-        val fileDataSource = FileDataSource()
-        try {
-            fileDataSource.open(dataSpec)
-        } catch (e: FileDataSource.FileDataSourceException) {
-            e.printStackTrace()
-        }
-
-        val factory = DataSource.Factory { fileDataSource }
-        return ProgressiveMediaSource.Factory(fileDataSourceFactory).createMediaSource(MediaItem.fromUri(file.toURI().toString()))
+        return ProgressiveMediaSource.Factory(fileDataSourceFactory)
+            .createMediaSource(MediaItem.fromUri(file.toURI().toString()))
     }
     private val playerListener = object: Player.Listener {
         @OptIn(UnstableApi::class) override fun onPlaybackStateChanged(playbackState: Int) {

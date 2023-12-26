@@ -185,6 +185,33 @@ class MainRepositoryImpl(private val mainDao: VideoDao, private val mainApi: Mai
         return mainApi.createQuiz(body.build())
     }
 
+    override fun getOneQuiz(quizId: String): Single<BaseResponse<Quiz>> {
+        return mainApi.getOneQuiz(quizId)
+    }
+
+    override fun editQuiz(quizId: String, body: Map<String, Any>, attachment: File?): Single<BaseResponse<Quiz>> {
+        val filePart: MultipartBody.Part? = attachment?.asRequestBody("*/*".toMediaTypeOrNull())?.let {
+            MultipartBody.Part.createFormData(
+                "attachment", attachment.name, it
+            )
+        }
+        val sentBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+        if (body.containsKey("question")) sentBody.addFormDataPart("question", body["question"].toString())
+        if (body.containsKey("answer")) sentBody.addFormDataPart("answer", body["answer"].toString())
+        if (body.containsKey("option1")) sentBody.addFormDataPart("option1", body["option1"].toString())
+        if (body.containsKey("option2")) sentBody.addFormDataPart("option2", body["option2"].toString())
+        if (body.containsKey("option3")) sentBody.addFormDataPart("option3", body["option3"].toString())
+        if (body.containsKey("option4")) sentBody.addFormDataPart("option4", body["option4"].toString())
+        if (filePart != null){
+            sentBody.addPart(filePart)
+        }
+        return mainApi.editQuiz(quizId, sentBody.build())
+    }
+
+    override fun deleteQuiz(quizId: String): Single<BaseResponse<Quiz>> {
+        return mainApi.deleteQuiz(quizId)
+    }
+
     override fun getQuizByModule(moduleId: String): Single<BaseResponse<List<Quiz>>> {
         return mainApi.getQuizByModule(moduleId)
     }

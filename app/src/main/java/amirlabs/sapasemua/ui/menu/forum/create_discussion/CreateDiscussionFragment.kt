@@ -28,8 +28,6 @@ class CreateDiscussionFragment : DevFragment<FragmentCreateDiscussionBinding>(R.
     }
 
     override fun initUI() {
-        verifyTitle()
-        verifyDescription()
         binding.btnSubmit.isEnabled = isVerified()
         binding.tvForumCreatorName.text = "${vm.user?.name}-(${vm.user?.role})"
 //        val image: ByteArray = Base64.decode(vm.user?.avatar ?:"", Base64.DEFAULT)
@@ -99,6 +97,8 @@ class CreateDiscussionFragment : DevFragment<FragmentCreateDiscussionBinding>(R.
     }
     private fun isVerified(): Boolean {
         return binding.etAddTitle.editText?.error == null &&
-                binding.etAddDesc.editText?.error == null
+                binding.etAddDesc.editText?.error == null &&
+                binding.etAddTitle.editText?.text.toString().isNotEmpty() &&
+                binding.etAddDesc.editText?.text.toString().isNotEmpty()
     }
 }

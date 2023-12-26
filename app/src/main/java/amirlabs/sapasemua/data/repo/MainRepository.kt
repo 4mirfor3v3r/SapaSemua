@@ -31,6 +31,9 @@ interface MainRepository {
     fun deleteModule(moduleId: String): Single<BaseResponse<Module>>
 
     fun createQuiz(body: Map<String, Any>, attachment: File): Single<BaseResponse<Quiz>>
+    fun getOneQuiz(quizId: String): Single<BaseResponse<Quiz>>
+    fun editQuiz(quizId: String, body: Map<String, Any>, attachment: File?): Single<BaseResponse<Quiz>>
+    fun deleteQuiz(quizId: String): Single<BaseResponse<Quiz>>
     fun getQuizByModule(moduleId: String): Single<BaseResponse<List<Quiz>>>
     fun getQuizQuestion(moduleId: String): Single<BaseResponse<List<Quiz>>>
     fun submitQuiz(body:Map<String, Any>): Single<BaseResponse<QuizResult>>

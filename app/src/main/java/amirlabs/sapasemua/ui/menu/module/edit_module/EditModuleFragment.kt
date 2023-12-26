@@ -1,18 +1,9 @@
 package amirlabs.sapasemua.ui.menu.module.edit_module
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import amirlabs.sapasemua.R
 import amirlabs.sapasemua.base.DevFragment
 import amirlabs.sapasemua.databinding.FragmentEditModuleBinding
-import amirlabs.sapasemua.ui.menu.module.add_module.AddModuleAdapter
-import amirlabs.sapasemua.ui.menu.module.add_module.AddModuleFragmentDirections
-import amirlabs.sapasemua.ui.menu.module.add_module.AddModuleViewModel
 import amirlabs.sapasemua.utils.DevState
-import amirlabs.sapasemua.utils.DialogUtils
 import amirlabs.sapasemua.utils.getViewModel
 import android.Manifest
 import android.content.pm.PackageManager
@@ -101,6 +92,9 @@ class EditModuleFragment : DevFragment<FragmentEditModuleBinding>(R.layout.fragm
     override fun initAction() {
         binding.btnBack.setOnClickListener {
             menuNavController?.popBackStack()
+        }
+        binding.btnAddQuiz.setOnClickListener {
+            menuNavController?.navigate(EditModuleFragmentDirections.actionEditModuleFragmentToListQuizFragment(args.moduleId))
         }
         binding.ivModule.setOnClickListener {
             if (checkPermissions()) {
